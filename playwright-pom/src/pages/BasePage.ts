@@ -20,4 +20,19 @@ export default class BasePage {
   async waitForPageLoad(): Promise<void> {
     await this.page.waitForLoadState('networkidle');
   }
+   async waitForElement(selector: string) {
+    await this.page.locator(selector).waitFor({ state: 'visible' });
+  }
+
+  async click(selector: string) {
+    await this.page.locator(selector).click();
+  }
+
+  async fill(selector: string, value: string) {
+    await this.page.locator(selector).fill(value);
+  }
+
+  async getText(selector: string) {
+    return await this.page.locator(selector).textContent();
+  }
 }

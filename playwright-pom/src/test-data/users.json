@@ -1,4 +1,14 @@
-{
-  "username": "gr82reach@gmail.com",
-  "password": "Test@123"
-}
+[
+  {
+    "username": "gr82reach@gmail.com",
+    "password": "Test@123"
+  },
+  {
+    "username": "invalid@example.com",
+    "password": "wrongpass"
+  },
+  {
+    "username": "invalid",
+    "password": "wrs"
+  }
+]

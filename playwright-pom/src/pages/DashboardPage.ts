@@ -20,6 +20,12 @@ export default class DashboardPage {
     await expect(this.page.getByRole('heading', { name: 'Home' })).toBeVisible();
   }
 
+  async validateUserIdentity() {
+    await expect(
+      this.page.getByRole('button', { name: /RR|profile/i })
+    ).toBeVisible();
+  }
+
   async validateUserEmail(expectedEmail: string) {
     await expect(this.userEmail).toContainText(expectedEmail);
   }

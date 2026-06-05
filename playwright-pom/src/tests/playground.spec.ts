@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import PlaygroundPage from '../../pages/PlaygroundPage';
+import PlaygroundPage from '../pages/PlaygroundPage';
 
 test.describe('PlaygroundPage', () => {
   test('should open the playground and validate the title', async ({ page }) => {

@@ -9,6 +9,6 @@ export const users = [
     },
     {
         username: 'testuser3',
-        password: 'password3'
+        password: 'Test@'
     }
 ];
