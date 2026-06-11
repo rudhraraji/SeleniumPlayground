@@ -1,7 +1,7 @@
 import { test, expect } from '../fixtures/baseTest';
 import credentials from '../test-data/users.json';
 
-
+test.describe('LoginPage', () => {
 test('Login with valid credentials', async ({
   page,
   loginPage,
@@ -105,4 +105,5 @@ test('Login with Invalid credentials: Password length should be at least 8 chara
   await loginPage.enterPassword(credentials[2].password);
   await loginPage.verifyPasswordLengthErrorMessage();
 
+});
 });

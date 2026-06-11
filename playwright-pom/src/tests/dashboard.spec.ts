@@ -17,7 +17,6 @@ test.describe('DashboardPage', () => {
 
   test('should display the home heading on the dashboard', async ({ page }) => {
     const dashboardPage = new DashboardPage(page);
-
     await dashboardPage.waitForDashboard();
     await dashboardPage.validateHomeHeading();
   });

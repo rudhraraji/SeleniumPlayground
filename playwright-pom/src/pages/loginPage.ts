@@ -50,6 +50,7 @@ export default class LoginPage extends BasePage {
   }
 
   async enterUsername(username: string) {
+    console.log(`Entering username: ${username}`);
     await this.usernameInput.click();
     await this.usernameInput.type(username, { delay: 50 });
     await this.usernameInput.press('Enter');
@@ -60,6 +61,7 @@ export default class LoginPage extends BasePage {
   }
 
   async enterPassword(password: string) {
+    console.log(`Entering password: ${password}`);
     await this.passwordInput.fill(password);
   }
 
