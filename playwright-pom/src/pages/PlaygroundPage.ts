@@ -9,13 +9,13 @@ export default class PlaygroundPage extends BasePage {
 
   // // Column#1
    readonly heading: Locator;
- 
-
+   readonly AjaxFormSubmit: Locator;
 
   constructor(page: Page) {
     super(page);
     this.canonicalLink = page.locator('link[rel="canonical"]');
     this.heading = page.getByRole('heading', { name: 'Selenium Playground' });
+    this.AjaxFormSubmit = this.page.getByRole('link', { name: 'Ajax Form Submit' });
   }
 
   async open() {
@@ -34,7 +34,7 @@ export default class PlaygroundPage extends BasePage {
     await expect(this.heading).toContainText('Selenium Playground');
   }
 
-  async clickLinkByName(name: string) {
+  async clickLink(name: string) {
     const link = this.page.getByRole('link', { name, exact: true });
     await this.click(link);
   }

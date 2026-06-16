@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 
 export default class BasePage {
   protected readonly page: Page;
@@ -37,5 +37,26 @@ export default class BasePage {
 
   async getText(selector: string) {
     return await this.page.locator(selector).textContent();
+  }
+
+   async goto(url: string) {
+    await this.page.goto(url, { waitUntil: 'domcontentloaded' });
+  }
+
+  async type(locator: Locator, value: string) {
+    await expect(locator).toBeVisible();
+    await locator.fill(value);
+  }
+
+  async shouldBeVisible(locator: Locator) {
+    await expect(locator).toBeVisible();
+  }
+
+  async shouldContainText(locator: Locator, text: string) {
+    await expect(locator).toContainText(text);
+  }
+
+  async shouldHaveCSS(locator: Locator, property: string, value: string) {
+    await expect(locator).toHaveCSS(property, value);
   }
 }

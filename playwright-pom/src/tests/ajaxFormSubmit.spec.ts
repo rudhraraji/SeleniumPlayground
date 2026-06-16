@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import PlaygroundPage from '../pages/PlaygroundPage';
 import AjaxFormSubmitPage from '../pages/AjaxFormSubmitPage';
-import urlLinks from '../test-data/urlLink.json';
+import urlLinks from '../data/playgroundLinks.json';
 
 test.describe('AjaxFormSubmitPage', () => {
 
@@ -27,23 +27,23 @@ test.describe('AjaxFormSubmitPage', () => {
     test.describe.configure({ retries: 2 });
     
     test('Ajax Form Submit: Empty name and message - Text *', async ({ page }, testInfo) => {
-      
       const playgroundPage = new PlaygroundPage(page);
       const ajaxFormSubmitPage = new AjaxFormSubmitPage(page);
       await playgroundPage.open();
       await playgroundPage.AjaxFormSubmit.click();
       await ajaxFormSubmitPage.clickSubmitBtn();
+     
       await ajaxFormSubmitPage.validateRequiredName();
     });
 
     test('Ajax Form Submit: Empty name and message - UI Textbox Border', async ({ page }, testInfo) => {
-      
       const playgroundPage = new PlaygroundPage(page);
       const ajaxFormSubmitPage = new AjaxFormSubmitPage(page);
       await playgroundPage.open();
       await playgroundPage.AjaxFormSubmit.click();
       await ajaxFormSubmitPage.clickSubmitBtn();
       await ajaxFormSubmitPage.waitForTextboxToLoad();
+      
       await ajaxFormSubmitPage.validateTextBorder();
     });
   });

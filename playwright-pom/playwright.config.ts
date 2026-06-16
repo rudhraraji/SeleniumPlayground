@@ -15,7 +15,7 @@ export default defineConfig({
 
   use: {
     headless: true,
-    actionTimeout: 0,
+    actionTimeout: 10000,
     trace: 'on-first-retry',
   },
 });

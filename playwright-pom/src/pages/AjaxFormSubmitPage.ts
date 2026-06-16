@@ -7,6 +7,7 @@ export default class AjaxFormSubmitPage extends BasePage {
   readonly url = 'https://www.testmuai.com/selenium-playground/ajax-form-submit-demo/';
   readonly page: Page;
 
+
   readonly heading: Locator;
   readonly lblName: Locator;
   readonly txtName: Locator;
@@ -44,16 +45,21 @@ export default class AjaxFormSubmitPage extends BasePage {
   async validateMessageText(){
     await expect(this.txtMessage).toBeEmpty();
   }
-  async validateRequiredName(){
-    await this.page.waitForTimeout(1000);
-    await expect(this.requiredName).toContainText('*');
-    console.log(await this.requiredName.count());
-  }
-  async validateTextBorder(){
-    await this.page.waitForTimeout(1000);
-    await expect(this.txtName).toHaveCSS('border-bottom-color', 'rgb(255, 0, 0)');
-    console.log(await this.txtName.count());
-  }
+  async validateRequiredName() {
+  await expect(this.requiredName).toBeVisible();
+  await expect(this.requiredName).toContainText('*');
+  
+  console.log(await this.requiredName.count());
+}
+  async validateTextBorder() {
+  await expect(this.txtName).toBeVisible();
+  await expect(this.txtName).toHaveCSS(
+    'border-color',
+    'rgb(255, 0, 0)'
+  );
+
+  console.log(await this.txtName.count());
+}
   async waitForTextboxToLoad() {
     await this.waitForElement('#title');
   }
