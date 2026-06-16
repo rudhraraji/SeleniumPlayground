@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 import LoginPage from '../pages/LoginPage';
 import DashboardPage from '../pages/DashboardPage';
-import credentials from '../test-data/users.json';
+import credentials from '../data/users.json';
 
 test.describe('DashboardPage', () => {
   test.beforeEach(async ({ page }) => {

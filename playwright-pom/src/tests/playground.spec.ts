@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import PlaygroundPage from '../pages/PlaygroundPage';
-import urlLinks from '../test-data/urlLink.json';
+import links from '../data/playgroundLinks.json';
 
 test.describe('PlaygroundPage', () => {
   
@@ -17,14 +17,28 @@ test.describe('PlaygroundPage', () => {
     await playgroundPage.open();
     await expect(page).toHaveTitle('Selenium Grid Online | Run Selenium Test On Cloud');
   });
-  
-  for (const linkData of urlLinks) {
-    test(`Playground: Validate canonical URL after navigating to "${linkData.text}"`, async ({ page }) => {
-      const playgroundPage = new PlaygroundPage(page);
-      await playgroundPage.open(); 
-      await playgroundPage.clickLinkByName(linkData.text);
-      await playgroundPage.validatePageURLs(linkData.path);
+
+test.describe('Playground', () => {
+  let playgroundPage: PlaygroundPage;
+
+  test.beforeEach(async ({ page }) => {
+    playgroundPage = new PlaygroundPage(page);
+    await playgroundPage.open();
+    await playgroundPage.validateHeading();
+  });
+
+  for (const link of links) {
+    test(`Navigate to ${link.text} and validate URL`, async ({ page }) => {
+      const linkLocator = page.getByRole('link', {
+        name: link.text,
+        exact: true,
+      });
+
+      await linkLocator.click();
+
+      await expect(page).toHaveURL(new RegExp(link.path + '$'));
     });
-  } 
+  }
+});
 
 }); 

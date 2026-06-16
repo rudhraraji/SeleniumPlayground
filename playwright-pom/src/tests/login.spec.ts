@@ -1,5 +1,5 @@
 import { test, expect } from '../fixtures/baseTest';
-import credentials from '../test-data/users.json';
+import credentials from '../data/users.json';
 
 test.describe('LoginPage', () => {
 test('Login with valid credentials', async ({

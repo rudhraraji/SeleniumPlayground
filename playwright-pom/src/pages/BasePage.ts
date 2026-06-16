@@ -7,10 +7,13 @@ export default class BasePage {
     this.page = page;
   }
 
-  async navigateTo(url: string): Promise<void> {
-    await this.page.goto(url, {
-      waitUntil: 'networkidle'
-    });
+   async navigateTo(url: string) {
+    await this.page.goto(url, { waitUntil: 'domcontentloaded' });
+  }
+
+  async click(locator: any) {
+    await locator.scrollIntoViewIfNeeded();
+    await locator.click();
   }
 
   async getTitle(): Promise<string> {
@@ -24,9 +27,9 @@ export default class BasePage {
     await this.page.locator(selector).waitFor({ state: 'visible' });
   }
 
-  async click(selector: string) {
-    await this.page.locator(selector).click();
-  }
+  // async click(selector: string) {
+  //   await this.page.locator(selector).click();
+  // }
 
   async fill(selector: string, value: string) {
     await this.page.locator(selector).fill(value);
