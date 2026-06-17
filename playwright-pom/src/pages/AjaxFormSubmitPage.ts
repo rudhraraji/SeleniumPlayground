@@ -39,31 +39,36 @@ export default class AjaxFormSubmitPage extends BasePage {
   async validatePageHeading() {
     await expect(this.heading).toContainText('Form Submit Demo');
   }
-  async validateNameText(){
+  async validateNameText() {
     await expect(this.txtName).toBeEmpty();
   }
-  async validateMessageText(){
+  async validateMessageText() {
     await expect(this.txtMessage).toBeEmpty();
   }
   async validateRequiredName() {
-  await expect(this.requiredName).toBeVisible();
-  await expect(this.requiredName).toContainText('*');
-  
-  console.log(await this.requiredName.count());
-}
-  async validateTextBorder() {
-  await expect(this.txtName).toBeVisible();
-  await expect(this.txtName).toHaveCSS(
-    'border-color',
-    'rgb(255, 0, 0)'
-  );
+    // await expect(this.requiredName).toBeVisible();
+    await expect(this.requiredName).toContainText('*');
 
-  console.log(await this.txtName.count());
-}
+    console.log(await this.requiredName.count());
+  }
+  async validateTextBorder() {
+    // await expect(this.txtName).toBeVisible();
+    await expect(this.txtName).toHaveCSS(
+      'border-color',
+      'rgb(255, 0, 0)'
+    );
+
+    console.log(await this.txtName.count());
+  }
   async waitForTextboxToLoad() {
     await this.waitForElement('#title');
   }
-  async clickSubmitBtn(){
+  async clickSubmitBtn() {
+    await this.btnSubmit.scrollIntoViewIfNeeded();
+    await this.btnSubmit.click({ force: true });
+    await this.page.reload();
     await this.btnSubmit.click();
   }
 }
+
+

@@ -5,16 +5,16 @@ import LoginPage from '../pages/LoginPage';
 import DashboardPage from '../pages/DashboardPage';
 
 type Pages = {
-//  basePage: BasePage;
+  basePage: BasePage;
   playgroundPage: PlaygroundPage;
   loginPage: LoginPage;
   dashboardPage: DashboardPage;
 };
 
 export const test = base.extend<Pages>({
-  // basePage: async ({ page }, use) => {
-  //   await use(new BasePage(page));
-  // },
+   basePage: async ({ page }, use) => {
+     await use(new BasePage(page));
+   },
   loginPage: async ({ page }, use) => {
     await use(new LoginPage(page));
   },

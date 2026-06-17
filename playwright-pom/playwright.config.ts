@@ -5,7 +5,7 @@ export default defineConfig({
 
   timeout: 30000,
 
-  retries: 2, // Retry failed tests up to 2 times
+  retries: 2, 
 
   expect: {
     timeout: 5000,

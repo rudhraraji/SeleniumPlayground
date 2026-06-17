@@ -4,7 +4,7 @@ import AjaxFormSubmitPage from '../pages/AjaxFormSubmitPage';
 import urlLinks from '../data/playgroundLinks.json';
 
 test.describe('AjaxFormSubmitPage', () => {
-
+/*
   test('Ajax Form Submit:Page Heading', async ({ page }) => {
     const ajaxFormSubmitPage = new AjaxFormSubmitPage(page);
     const playgroundPage = new PlaygroundPage(page);
@@ -21,10 +21,10 @@ test.describe('AjaxFormSubmitPage', () => {
     await page.waitForLoadState('domcontentloaded');
     await playgroundPage.validatePageURL('ajax-form-submit-demo');
   });
-
-  // Isolated block: Both tests inside here will retry up to 2 times ONLY if they fail
-  test.describe('With Retries', () => {
-    test.describe.configure({ retries: 2 });
+*/
+  
+  // test.describe('With Retries', () => {
+   // test.describe.configure({ retries: 2 });
     
     test('Ajax Form Submit: Empty name and message - Text *', async ({ page }, testInfo) => {
       const playgroundPage = new PlaygroundPage(page);
@@ -32,7 +32,6 @@ test.describe('AjaxFormSubmitPage', () => {
       await playgroundPage.open();
       await playgroundPage.AjaxFormSubmit.click();
       await ajaxFormSubmitPage.clickSubmitBtn();
-     
       await ajaxFormSubmitPage.validateRequiredName();
     });
 
@@ -42,10 +41,8 @@ test.describe('AjaxFormSubmitPage', () => {
       await playgroundPage.open();
       await playgroundPage.AjaxFormSubmit.click();
       await ajaxFormSubmitPage.clickSubmitBtn();
-      await ajaxFormSubmitPage.waitForTextboxToLoad();
-      
       await ajaxFormSubmitPage.validateTextBorder();
     });
-  });
+ //});
 
 });

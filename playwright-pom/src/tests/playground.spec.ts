@@ -29,10 +29,8 @@ test.describe('Playground', () => {
 
   for (const link of links) {
     test(`Navigate to ${link.text} and validate URL`, async ({ page }) => {
-      const linkLocator = page.getByRole('link', {
-        name: link.text,
-        exact: true,
-      });
+      //let linkLocatora = page.
+      const linkLocator = page.getByRole('link', {name: link.text, exact: true, });
 
       await linkLocator.click();
 
