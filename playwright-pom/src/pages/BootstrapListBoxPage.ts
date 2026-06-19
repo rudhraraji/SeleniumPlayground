@@ -8,11 +8,11 @@ export default class BootstrapListBoxPage extends BasePage {
 
   readonly headingBootstrapDualList: Locator;
   readonly txtLeftSearch: Locator;
-  readonly lblLeftAllItems: Locator;
+  readonly btnLeftAllItems: Locator;
   readonly lstLeftItems: Locator;
   readonly btnMoveToRight: Locator;
   readonly txtRightSearch: Locator;
-  readonly lblRightAllItems: Locator;
+  readonly btnRightAllItems: Locator;
   readonly lstRightItems: Locator;
   readonly btnMoveToLeft: Locator;
 
@@ -23,13 +23,13 @@ export default class BootstrapListBoxPage extends BasePage {
 
     // Left Panel
     this.txtLeftSearch = page.getByRole('textbox', { name: 'search' }).first();
-    this.lblLeftAllItems = page.getByText('All').nth(3);
+    this.btnLeftAllItems = page.getByText('All').nth(4);
     this.lstLeftItems = page.getByText('AllKedungjenarDanvilleMynamaki');
     this.btnMoveToRight = page.locator('button').filter({ hasText: /^>$/ });
 
     // Right Panel
     this.txtRightSearch = page.getByRole('textbox', { name: 'search' }).nth(1);
-    this.lblRightAllItems = page.getByText('All').nth(4);
+    this.btnRightAllItems = page.getByText('All').nth(5);
     this.lstRightItems = page.getByText('AllMilanNgodoGrange');
     this.btnMoveToLeft = page.getByRole('button', { name: '>' }).nth(1);
   }
@@ -44,14 +44,14 @@ export default class BootstrapListBoxPage extends BasePage {
   }
 
   async enterSearchLeftItem(leftSearch: string) {
-    console.log(`Entering Search item:, ${leftSearch}`);
+    console.log(`Entering Search item: ${leftSearch}`);
     await this.txtLeftSearch.click();
     await this.txtLeftSearch.type(leftSearch, { delay: 50 });
     await this.txtLeftSearch.press('Enter');
   }
 
   async enterSearchRightItem(rightSearch: string) {
-    console.log(`Entering Search item:, ${rightSearch}`);
+    console.log(`Entering Search item: ${rightSearch}`);
     await this.txtRightSearch.click();
     await this.txtRightSearch.type(rightSearch, { delay: 50 });
     await this.txtRightSearch.press('Enter');
@@ -70,26 +70,31 @@ export default class BootstrapListBoxPage extends BasePage {
     await randomItem.click();
   }
 
+  async lastLeftItem() {
+    const lastItem = this.page.locator('.list-left li').last();
+    await expect(lastItem).toBeVisible();
+    return (await lastItem.textContent())?.trim() || '';
+    console.log(`lastitem: ${lastItem}`);
+  }
+  async lastRightItem() {
+    const lastItem = this.page.locator('.list-right li').last();
+    await expect(lastItem).toBeVisible();
+    return (await lastItem.textContent())?.trim() || '';
+    console.log(`lastitem: ${lastItem}`);
+  }
+
   async moveItemLeftToRight(itemName: string) {
     console.log(`Move Item Left to Right: ${itemName}`);
-    const item = this.page.locator('.list-left li').filter({
+    const item = this.page.locator('.list-right li').filter({
       hasText: itemName,
     });
     await item.click();
     await this.btnMoveToRight.click();
   }
 
-async getLastRightPanelItemText(): Promise<string> {
-  const lastItem = this.page.locator('.list-right li').last();
-
-  await expect(lastItem).toBeVisible();
-
-  return (await lastItem.textContent())?.trim() || '';
-}
-
   async moveItemRightToLeft(itemName: string) {
     console.log(`Move Item Right to Left: ${itemName}`);
-    const item = this.page.locator('.list-right li').filter({
+    const item = this.page.locator('.list-left li').filter({
       hasText: itemName,
     });
     await item.click();
@@ -98,20 +103,22 @@ async getLastRightPanelItemText(): Promise<string> {
 
   async moveAllItemsLeftToRight(): Promise<void> {
     const items = this.page.locator('.list-left li');
-
-    while ((await items.count()) > 0) {
-      await items.first().click();
-      await this.btnMoveToRight.click();
+    const count = await items.count();
+    for (let i = 0; i < count; i++) {
+      await items.nth(i).click();
     }
+    await this.btnMoveToRight.click();
   }
+
   async moveAllItemsRightToLeft(): Promise<void> {
     const items = this.page.locator('.list-right li');
-
-    while ((await items.count()) > 0) {
-      await items.first().click();
-      await this.btnMoveToLeft.click();
+    const count = await items.count();
+    for (let i = 0; i < count; i++) {
+      await items.nth(i).click();
     }
+    await this.btnRightAllItems.click();
   }
+
 
   async moveItem(
     itemName: string,
@@ -129,8 +136,8 @@ async getLastRightPanelItemText(): Promise<string> {
     } else {
       await this.btnMoveToLeft.click();
     }
+    console.log(`lastitem: ${itemName}`);
   }
-
 }
 
 
