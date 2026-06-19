@@ -1,1 +1,4 @@
 playwright-pom/playwright-report/index.html
+*.html
+*.md
+*.html

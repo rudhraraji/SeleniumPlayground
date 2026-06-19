@@ -10,12 +10,14 @@ export default class PlaygroundPage extends BasePage {
   // // Column#1
    readonly heading: Locator;
    readonly AjaxFormSubmit: Locator;
+   readonly BootstrapListBox: Locator;
 
   constructor(page: Page) {
     super(page);
     this.canonicalLink = page.locator('link[rel="canonical"]');
     this.heading = page.getByRole('heading', { name: 'Selenium Playground' });
     this.AjaxFormSubmit = this.page.getByRole('link', { name: 'Ajax Form Submit' });
+    this.BootstrapListBox = this.page.getByRole('link', {name: 'Bootstrap List Box' });
   }
 
   async open() {
