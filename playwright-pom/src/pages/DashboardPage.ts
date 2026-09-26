@@ -1,23 +1,23 @@
 import { Page, Locator, expect } from '@playwright/test';
+import BasePage from './BasePage';
 
-export default class DashboardPage {
-  readonly page: Page;
+export default class DashboardPage extends BasePage {
   readonly userEmail: Locator;
   readonly accountSummary: Locator;
 
   constructor(page: Page) {
-    this.page = page;
+    super(page);
 
     this.userEmail = page.locator('[data-testid="user-email"]');
     this.accountSummary = page.locator('[data-testid="account-summary"]');
   }
 
   async waitForDashboard() {
-    await this.page.waitForURL('**/dashboard');
+    await expect.poll(async () => this.page.url(), { timeout: 30000 }).toContain('/dashboard');
   }
 
   async validateHomeHeading() {
-    await expect(this.page.getByRole('heading', { name: 'Home' })).toBeVisible();
+    await expect(this.page.getByRole('heading', { name: /^Home$/i })).toBeVisible();
   }
 
   async validateUserIdentity() {

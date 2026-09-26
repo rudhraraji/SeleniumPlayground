@@ -1,6 +1,6 @@
 # Playwright Page Object Model Framework
 
-This project is a Playwright framework that implements the Page Object Model (POM) design pattern for testing a login functionality on a sample website.
+This project is a reusable Playwright framework that implements the Page Object Model (POM) design pattern for the Selenium Playground site.
 
 ## Project Structure
 
@@ -8,7 +8,8 @@ This project is a Playwright framework that implements the Page Object Model (PO
 playwright-pom
 ├── src
 │   ├── pages
-│   │   └── loginPage.ts       # Contains the LoginPage class with methods for interacting with the login page.
+│   │   ├── BasePage.ts        # Shared navigation, interaction, and assertion helpers.
+│   │   └── LoginPage.ts       # Login page interactions and assertions.
 │   ├── tests
 │   │   └── login.spec.ts       # Test suite for the login functionality.
 │   ├── fixtures
@@ -42,8 +43,10 @@ playwright-pom
 
 ## Usage
 
-- The `LoginPage` class in `src/pages/loginPage.ts` encapsulates all interactions with the login page.
+- The `LoginPage` class in `src/pages/LoginPage.ts` encapsulates all interactions with the login page.
 - The test suite in `src/tests/login.spec.ts` demonstrates how to use the `LoginPage` class to perform login tests.
+- Page objects are available as typed fixtures from `src/fixtures/baseTest.ts`, including `loginPage`, `dashboardPage`, `playgroundPage`, `ajaxFormSubmitPage`, and `bootstrapListBoxPage`.
+- Set `BASE_URL` to run against another environment. It defaults to `https://www.testmuai.com`.
 
 ## Examples
 

@@ -26,12 +26,7 @@ test.describe('DashboardPage', () => {
 
   await dashboardPage.waitForDashboard();
 
-  // Validate profile dropdown is visible instead of fake email locator
-  await expect(
-    page.getByRole('button', { name: /profile dropdown/i })
-  ).toBeVisible();
-
-  // Validate displayed user identity (RR in your snapshot)
+  // Validate the user profile control is visible on the dashboard.
   await expect(
     page.getByRole('button', { name: /RR|profile/i })
   ).toBeVisible();

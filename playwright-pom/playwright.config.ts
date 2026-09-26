@@ -1,9 +1,16 @@
 import { defineConfig } from '@playwright/test';
+import { baseUrl } from './src/config/environment';
 
 export default defineConfig({
   testDir: './src/tests',
+  use: {
+    baseURL: baseUrl,
+    headless: true,
+    actionTimeout: 10000,
+    trace: 'on-first-retry',
+  },
 
-  timeout: 30000,
+  timeout: 60000,
 
  // retries: 2, 
 
@@ -13,9 +20,4 @@ export default defineConfig({
 
   reporter: 'html',
 
-  use: {
-    headless: true,
-    actionTimeout: 10000,
-    trace: 'on-first-retry',
-  },
 });

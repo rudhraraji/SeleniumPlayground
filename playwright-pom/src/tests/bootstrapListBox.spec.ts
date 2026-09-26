@@ -34,7 +34,7 @@ test.describe('BootstrapListBoxPage', () => {
     const bootstrapListBoxPage = new BootstrapListBoxPage(page);
     const movedItem = 'Grange';
     await bootstrapListBoxPage.enterSearchRightItem(movedItem);
-    await bootstrapListBoxPage.moveItemLeftToRight(movedItem);
+    await bootstrapListBoxPage.moveItemRightToLeft(movedItem);
     const lastLeftItem = await bootstrapListBoxPage.lastLeftItem();
     expect(lastLeftItem).toBe(movedItem);
   });
@@ -43,7 +43,7 @@ test.describe('BootstrapListBoxPage', () => {
     const bootstrapListBoxPage = new BootstrapListBoxPage(page);
     const movedItem = 'Danville';
     await bootstrapListBoxPage.enterSearchLeftItem(movedItem);
-    await bootstrapListBoxPage.moveItemRightToLeft(movedItem);
+    await bootstrapListBoxPage.moveItemLeftToRight(movedItem);
     const lastRightItem = await bootstrapListBoxPage.lastRightItem();
     expect(lastRightItem).toBe(movedItem);
   });

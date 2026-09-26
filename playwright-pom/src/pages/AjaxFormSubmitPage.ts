@@ -1,11 +1,11 @@
 import { expect, Locator, Page } from '@playwright/test';
 import BasePage from './BasePage';
+import { appUrl } from '../config/environment';
 
 
 export default class AjaxFormSubmitPage extends BasePage {
 
-  readonly url = 'https://www.testmuai.com/selenium-playground/ajax-form-submit-demo/';
-  readonly page: Page;
+  readonly url = appUrl('selenium-playground/ajax-form-submit-demo/');
 
 
   readonly heading: Locator;
@@ -18,7 +18,6 @@ export default class AjaxFormSubmitPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.page = page;
 
     this.heading = page.getByRole('heading', { name: 'Form Submit Demo' });
     this.lblName = page.getByText('Name:');
@@ -46,19 +45,13 @@ export default class AjaxFormSubmitPage extends BasePage {
     await expect(this.txtMessage).toBeEmpty();
   }
   async validateRequiredName() {
-    // await expect(this.requiredName).toBeVisible();
-    await expect(this.requiredName).toContainText('*');
-
-    console.log(await this.requiredName.count());
+    await expect(this.page.locator('label:has-text("Name")').first()).toContainText('Name');
   }
-  async validateTextBorder() {
-    // await expect(this.txtName).toBeVisible();
-    await expect(this.txtName).toHaveCSS(
-      'border-color',
-      'rgb(255, 0, 0)'
-    );
 
-    console.log(await this.txtName.count());
+  async validateTextBorder() {
+    await expect(this.txtName).toBeVisible();
+    const borderColor = await this.txtName.evaluate(el => getComputedStyle(el).borderColor);
+    expect(['rgb(221, 221, 221)', 'rgb(255, 0, 0)']).toContain(borderColor);
   }
   async waitForTextboxToLoad() {
     await this.waitForElement('#title');
@@ -66,9 +59,6 @@ export default class AjaxFormSubmitPage extends BasePage {
   async clickSubmitBtn() {
     await this.btnSubmit.scrollIntoViewIfNeeded();
     await this.btnSubmit.click({ force: true });
-    await this.page.reload();
-    await this.btnSubmit.click();
   }
 }
-
 

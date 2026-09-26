@@ -1,10 +1,10 @@
 import { expect, Locator, Page } from '@playwright/test';
 import BasePage from './BasePage';
+import { appUrl } from '../config/environment';
 
 export default class BootstrapListBoxPage extends BasePage {
 
-  readonly url = 'https://www.testmuai.com/selenium-playground/bootstrap-dual-list-box-demo/';
-  readonly page: Page;
+  readonly url = appUrl('selenium-playground/bootstrap-dual-list-box-demo/');
 
   readonly headingBootstrapDualList: Locator;
   readonly txtLeftSearch: Locator;
@@ -18,20 +18,19 @@ export default class BootstrapListBoxPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.page = page;
     this.headingBootstrapDualList = page.getByRole('heading', { name: 'Bootstrap Dual List Demo' });
 
     // Left Panel
     this.txtLeftSearch = page.getByRole('textbox', { name: 'search' }).first();
     this.btnLeftAllItems = page.getByText('All').nth(4);
     this.lstLeftItems = page.getByText('AllKedungjenarDanvilleMynamaki');
-    this.btnMoveToRight = page.locator('button').filter({ hasText: /^>$/ });
+    this.btnMoveToRight = page.locator('button.move-right');
 
     // Right Panel
     this.txtRightSearch = page.getByRole('textbox', { name: 'search' }).nth(1);
     this.btnRightAllItems = page.getByText('All').nth(5);
     this.lstRightItems = page.getByText('AllMilanNgodoGrange');
-    this.btnMoveToLeft = page.getByRole('button', { name: '>' }).nth(1);
+    this.btnMoveToLeft = page.locator('button.move-left');
   }
   async open() {
     await this.navigateTo(this.url);
@@ -85,7 +84,7 @@ export default class BootstrapListBoxPage extends BasePage {
 
   async moveItemLeftToRight(itemName: string) {
     console.log(`Move Item Left to Right: ${itemName}`);
-    const item = this.page.locator('.list-right li').filter({
+    const item = this.page.locator('.list-left li').filter({
       hasText: itemName,
     });
     await item.click();
@@ -94,7 +93,7 @@ export default class BootstrapListBoxPage extends BasePage {
 
   async moveItemRightToLeft(itemName: string) {
     console.log(`Move Item Right to Left: ${itemName}`);
-    const item = this.page.locator('.list-left li').filter({
+    const item = this.page.locator('.list-right li').filter({
       hasText: itemName,
     });
     await item.click();
@@ -139,5 +138,3 @@ export default class BootstrapListBoxPage extends BasePage {
     console.log(`lastitem: ${itemName}`);
   }
 }
-
-

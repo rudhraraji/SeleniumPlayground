@@ -1,4 +1,10 @@
 playwright-pom/playwright-report/index.html
 *.html
 *.md
-*.html
+*.vs
+/playwright-pom/node_modules/.bin
+playwright-pom/node_modules/.bin/playwright
+playwright-pom/node_modules/.bin/playwright-core
+playwright-pom/node_modules/.bin/tsc
+playwright-pom/node_modules/.bin/tsserver
+playwright-pom/node_modules/.package-lock.json

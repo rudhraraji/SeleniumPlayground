@@ -1,8 +1,9 @@
 import { expect, Locator, Page } from '@playwright/test';
 import BasePage from './BasePage';
+import { appUrl } from '../config/environment';
 
 export default class LoginPage extends BasePage {
-  readonly url = 'https://www.testmuai.com/login';
+  readonly url = appUrl('login');
 
   readonly usernameInput: Locator;
   readonly continueButton: Locator;
@@ -51,8 +52,9 @@ export default class LoginPage extends BasePage {
 
   async enterUsername(username: string) {
     console.log(`Entering username: ${username}`);
+    await this.usernameInput.waitFor({ state: 'visible', timeout: 15000 });
     await this.usernameInput.click();
-    await this.usernameInput.type(username, { delay: 50 });
+    await this.usernameInput.fill(username);
     await this.usernameInput.press('Enter');
   }
 
@@ -84,8 +86,12 @@ export default class LoginPage extends BasePage {
 
   async login(username: string, password: string) {
     console.log(`Logging in with username: ${username} and password: ${password}`);
-    await this.enterUsername(username);
-    await this.passwordInput.waitFor({ state: 'visible' });
+
+    const loginUrl = new URL('https://accounts.lambdatest.com/login');
+    loginUrl.searchParams.set('email', username);
+    await this.page.goto(loginUrl.toString(), { waitUntil: 'domcontentloaded' });
+
+    await this.passwordInput.waitFor({ state: 'visible', timeout: 20000 });
     await this.enterPassword(password);
     await this.submitLogin();
   }
