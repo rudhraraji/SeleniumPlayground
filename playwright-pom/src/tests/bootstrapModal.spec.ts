@@ -34,9 +34,9 @@ test.describe('Bootstrap Modal Demo', () => {
     await expect(modalPage.singleModal).toBeHidden();
     await expect(modalPage.singleModal).toContainText('This is the place where the content for the modal dialog displays');
     await expect(modalPage.singleModalDismissButtons).toHaveCount(3);
-    await expect(modalPage.singleModal.getByRole('button', { name: 'Close', exact: true }))
+    await expect(modalPage.singleModal.locator('button').filter({ hasText: 'Close' }))
       .toHaveAttribute('data-dismiss', 'modal');
-    await expect(modalPage.singleModal.getByRole('button', { name: 'Save Changes', exact: true }))
+    await expect(modalPage.singleModal.locator('button').filter({ hasText: 'Save Changes' }))
       .toHaveAttribute('data-dismiss', 'modal');
   });
 
