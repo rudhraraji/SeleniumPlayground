@@ -20,6 +20,8 @@ class BrokenImagePage extends BasePage_1.default {
         super(page);
         this.url = (0, environment_1.appUrl)('selenium-playground/broken-image/');
         this.heading = page.getByRole('heading', { name: 'Broken Images', exact: true });
+        this.imageWithAltHeading = page.getByRole('heading', { name: 'Broken Image with Alt', exact: true });
+        this.imageWithoutAltHeading = page.getByRole('heading', { name: 'Broken Image without Alt', exact: true });
         this.brokenImages = page.locator('img[src="abcd.jpg"]');
     }
     open() {
