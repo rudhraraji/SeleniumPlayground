@@ -20,6 +20,9 @@ class WindowPopupModalPage extends BasePage_1.default {
         super(page);
         this.url = (0, environment_1.appUrl)('selenium-playground/window-popup-modal-demo/');
         this.heading = page.getByRole('heading', { name: 'Window popup Modal', exact: true });
+        this.applicationError = page.getByRole('heading', {
+            name: /Application error: a client-side exception has occurred/,
+        });
         this.customUrlInput = page.getByPlaceholder('e.g. www.google.com');
         this.openUrlLink = page.getByRole('link', { name: 'Open URL', exact: true });
         this.singleWindowLinks = page.locator('a[title^="Follow @testmuai"]');
@@ -29,6 +32,9 @@ class WindowPopupModalPage extends BasePage_1.default {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.navigateTo(this.url);
             yield this.page.waitForLoadState('networkidle');
+            if (yield this.applicationError.isVisible()) {
+                yield this.page.reload({ waitUntil: 'networkidle' });
+            }
             yield (0, test_1.expect)(this.heading).toBeVisible();
         });
     }
