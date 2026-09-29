@@ -28,6 +28,7 @@ class CheckboxPage extends BasePage_1.default {
         });
         this.disabledOptions = page.locator('input[type="checkbox"]:disabled');
         this.multipleOptions = page.locator('input[name^="option"]');
+        this.checkAllButton = page.getByRole('button', { name: 'Check All', exact: true });
     }
     open() {
         return __awaiter(this, void 0, void 0, function* () {

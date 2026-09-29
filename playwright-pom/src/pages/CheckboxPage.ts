@@ -8,6 +8,7 @@ export default class CheckboxPage extends BasePage {
   readonly singleCheckbox: Locator;
   readonly disabledOptions: Locator;
   readonly multipleOptions: Locator;
+  readonly checkAllButton: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -20,6 +21,7 @@ export default class CheckboxPage extends BasePage {
     });
     this.disabledOptions = page.locator('input[type="checkbox"]:disabled');
     this.multipleOptions = page.locator('input[name^="option"]');
+    this.checkAllButton = page.getByRole('button', { name: 'Check All', exact: true });
   }
 
   async open(): Promise<void> {

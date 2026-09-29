@@ -42,4 +42,14 @@ test.describe('Checkbox Demo', () => {
       await expect(options.nth(index)).toBeChecked();
     }
   });
+
+  test('Check All selects every multiple-checkbox option', async () => {
+    const options = checkboxPage.multipleOptions;
+
+    await expect(options).toHaveCount(4);
+    await checkboxPage.checkAllButton.click();
+    for (let index = 0; index < 4; index += 1) {
+      await expect(options.nth(index)).toBeChecked();
+    }
+  });
 });
