@@ -34,6 +34,8 @@ export default class BootstrapListBoxPage extends BasePage {
   }
   async open() {
     await this.navigateTo(this.url);
+    await this.page.waitForLoadState('networkidle');
+    await expect(this.headingBootstrapDualList).toBeVisible();
   }
   async waitForPageToLoad() {
     await this.page.waitForURL('**/bootstrap-dual-list-box-demo/');

@@ -55,7 +55,26 @@ playwright-pom
   npx playwright test src/tests/login.spec.ts
   ```
 
-- To generate a report after running tests, you can configure the Playwright settings in `playwright.config.ts`.
+- To generate the interactive HTML test report:
+  ```
+  npm run test:report
+  ```
+
+- To open the most recently generated report in a browser:
+  ```
+  npm run show:report
+  ```
+
+  The report is written to `playwright-report/`. The project’s Playwright configuration uses the HTML reporter by default.
+
+- To run the suite with Allure and generate an interactive Allure report:
+  ```
+  npm run test:allure
+  npm run allure:generate
+  npm run allure:open
+  ```
+
+  Test results are written to `allure-results/` and the generated report to `allure-report/`.
 
 ## Contributing
 

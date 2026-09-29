@@ -32,6 +32,7 @@ class CheckboxPage extends BasePage_1.default {
     open() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.navigateTo(this.url);
+            yield this.page.waitForLoadState('networkidle');
             yield (0, test_1.expect)(this.heading).toBeVisible();
         });
     }

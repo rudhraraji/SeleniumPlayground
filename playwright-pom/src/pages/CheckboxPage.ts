@@ -24,6 +24,7 @@ export default class CheckboxPage extends BasePage {
 
   async open(): Promise<void> {
     await this.navigateTo(this.url);
+    await this.page.waitForLoadState('networkidle');
     await expect(this.heading).toBeVisible();
   }
 }

@@ -15,8 +15,11 @@ test.describe('Checkbox Demo', () => {
     await expect(checkbox).not.toBeChecked();
     await checkbox.check();
     await expect(checkbox).toBeChecked();
-    await checkbox.uncheck();
+    await expect(page.getByText('Checked!', { exact: true })).toBeVisible();
+
+    await checkbox.click();
     await expect(checkbox).not.toBeChecked();
+    await expect(page.getByText('Checked!', { exact: true })).toBeHidden();
   });
 
   test('disabled demo options cannot be changed', async ({ page }) => {
