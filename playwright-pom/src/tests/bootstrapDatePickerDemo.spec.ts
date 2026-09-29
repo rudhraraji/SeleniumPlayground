@@ -31,3 +31,4 @@ test('Bootstrap Date Picker Demo › accepts a start and end date range', async 
   await expect(datePickerPage.startDateInput).toHaveValue('09/28/2026');
   await expect(datePickerPage.endDateInput).toHaveValue('09/30/2026');
 });
+

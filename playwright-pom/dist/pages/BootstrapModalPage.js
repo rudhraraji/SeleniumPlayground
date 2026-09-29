@@ -23,6 +23,13 @@ class BootstrapModalPage extends BasePage_1.default {
         this.launchButtons = page.locator('main button[data-toggle="modal"]');
         this.singleModal = page.locator('#myModal');
         this.multipleModal = page.locator('#myMultiModal');
+        this.secondModal = page.locator('#mySecondModal');
+        this.singleModalDismissButtons = this.singleModal.locator('[data-dismiss="modal"]');
+        this.nestedModalLaunchButton = this.multipleModal.getByRole('button', {
+            name: 'Launch Modal',
+            exact: true,
+        });
+        this.nestedModalDismissButtons = this.multipleModal.locator('[data-dismiss="modal"]');
     }
     open() {
         return __awaiter(this, void 0, void 0, function* () {

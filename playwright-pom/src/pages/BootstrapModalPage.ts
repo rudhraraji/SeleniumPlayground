@@ -8,6 +8,10 @@ export default class BootstrapModalPage extends BasePage {
   readonly launchButtons: Locator;
   readonly singleModal: Locator;
   readonly multipleModal: Locator;
+  readonly secondModal: Locator;
+  readonly singleModalDismissButtons: Locator;
+  readonly nestedModalLaunchButton: Locator;
+  readonly nestedModalDismissButtons: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -15,6 +19,13 @@ export default class BootstrapModalPage extends BasePage {
     this.launchButtons = page.locator('main button[data-toggle="modal"]');
     this.singleModal = page.locator('#myModal');
     this.multipleModal = page.locator('#myMultiModal');
+    this.secondModal = page.locator('#mySecondModal');
+    this.singleModalDismissButtons = this.singleModal.locator('[data-dismiss="modal"]');
+    this.nestedModalLaunchButton = this.multipleModal.getByRole('button', {
+      name: 'Launch Modal',
+      exact: true,
+    });
+    this.nestedModalDismissButtons = this.multipleModal.locator('[data-dismiss="modal"]');
   }
 
   async open(): Promise<void> {
