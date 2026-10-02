@@ -1,102 +1,226 @@
-# Playwright Page Object Model Framework
+# Playwright Selenium Playground
 
-This project is a reusable Playwright framework that implements the Page Object Model (POM) design pattern for the Selenium Playground site.
+This repository contains a TypeScript end-to-end test suite for the Selenium
+Playground website. It uses Playwright Test and the Page Object Model (POM):
+page objects describe how to interact with each demo, while test specs describe
+the expected behavior.
 
-## Project Structure
+Tests use the live site at `https://www.testmuai.com` by default. They verify
+real browser behavior and therefore require an internet connection and an
+available demo website.
 
-```
-playwright-pom
-├── src
-│   ├── config/       # Base URL and optional Jira report-link configuration.
-│   ├── data/         # Test data and playground navigation links.
-│   ├── fixtures/     # Shared Playwright fixtures and Jira reporting hook.
-│   ├── pages/        # Page objects; shared navigation/readiness is in BasePage.
-│   ├── tests/        # Playwright specs.
-│   └── utils/        # Reusable test utilities.
-├── scripts/          # Jira CLI and Windows credential helpers.
-├── playwright.config.ts
-├── package.json
-├── tsconfig.json
-└── README.md
+## Quick start
+
+Use Node.js 20 or later. From the repository root:
+
+```sh
+npm install
+npm test
 ```
 
-## Setup Instructions
+The same suite can be run directly with Playwright:
 
-1. **Clone the repository and install dependencies from its root:**
-   ```
-   git clone <repository-url>
-   cd <repository-directory>
-   npm install
-   ```
+```sh
+npx playwright test
+```
 
-2. **Run the tests from the repository root:**
-   ```
-   npx playwright test
-   ```
+Neither command requires Copilot CLI. The repository-root Playwright config
+discovers specs in `playwright-pom/src/tests` and writes an HTML report.
 
-## Usage
+## Project structure
 
-The npm scripts below are defined in `playwright-pom/package.json`; run them from
-that directory, or use `npm run --workspace playwright-pom <script>` from the repository root.
+```text
+.
+├── package.json                 # Root workspace and `npm test` command
+├── playwright.config.ts         # Root config for running the suite from root
+└── playwright-pom/
+    ├── playwright.config.ts     # Playwright settings for the framework
+    ├── package.json             # Framework scripts and dependencies
+    ├── tsconfig.json            # Strict TypeScript build configuration
+    ├── src/
+    │   ├── config/              # Base URL and optional Jira report-link settings
+    │   ├── data/                # Test data and demo navigation links
+    │   ├── fixtures/            # Shared Playwright and page-object fixtures
+    │   ├── pages/               # Page objects for the demos
+    │   ├── tests/               # Playwright test specifications
+    │   └── utils/               # Shared test helpers
+    └── scripts/                 # Optional Jira and credential helpers
+```
 
-- Page objects in `src/pages/` encapsulate interactions with each demo. Use `BasePage.openPage(url, readyLocator)` for standard navigation that waits for document load and a visible page landmark; retain explicit readiness checks where a demo needs additional setup.
-- The specs in `src/tests/` exercise those page objects with Playwright.
-- `src/fixtures/baseTest.ts` provides typed page-object fixtures for login, dashboard, playground, Ajax form, and Bootstrap list-box tests. `src/fixtures/test.ts` adds an optional Jira issue link to Allure reports.
-- Set `BASE_URL` to run against another environment. It defaults to `https://www.testmuai.com`.
+## How the framework works
 
-## Examples
+1. Playwright reads the root `playwright.config.ts` when started from the
+   repository root. That config reuses the framework settings and points
+   Playwright at `playwright-pom/src/tests`.
+2. A spec creates or receives a Playwright `page` and uses a page object from
+   `src/pages/`. Page objects keep selectors and interactions together rather
+   than duplicating them throughout tests.
+3. Most page objects extend `BasePage`. Its `openPage(url, readyLocator)`
+   helper navigates to the page, waits for document load and network idle, then
+   verifies a page landmark is visible before test actions begin.
+4. Tests use Playwright locators and auto-retrying assertions to check results,
+   state, visibility, accessibility roles, downloads, dialogs, and browser
+   interactions.
+5. Shared fixtures in `src/fixtures/baseTest.ts` provide typed page objects
+   where useful. `src/fixtures/test.ts` can attach a Jira issue link to Allure
+   test results when `JIRA_TC_KEY` is set.
 
-- To run a specific test file:
-  ```
-  npx playwright test playwright-pom/src/tests/login.spec.ts
-  ```
+The framework uses headless Chromium by default, a 10-second action timeout,
+60-second test timeout, 5-second expectation timeout, and tracing configured
+for the first retry. Retries are not enabled by default.
 
-- To generate the interactive HTML test report:
-  ```
-  npm run test:report
-  ```
+## Implemented test coverage
 
-- To open the most recently generated report in a browser:
-  ```
-  npm run show:report
-  ```
+The suite covers 47 spec files and 192 browser tests across these areas:
 
-  The report is written to `playwright-report/`. The project’s Playwright configuration uses the HTML reporter by default.
+### Authentication and navigation
 
-- To run the suite with Allure and generate an interactive Allure report:
-  ```
-  npm run test:allure
-  npm run allure:generate
-  npm run allure:open
-  ```
+- **Login** — successful login and invalid, incomplete, or malformed
+  credentials with validation messages.
+- **Dashboard** — dashboard heading and signed-in user identity.
+- **Playground navigation** — page title and links to the available demos.
+- **Demo page smoke checks** — verifies that the supported demo pages open.
+- **Redirection** — follows the demo link and checks the resulting page.
 
-  Test results are written to `allure-results/` and the generated report to `allure-report/`.
-  To link a test run to a Jira issue in Allure, pass its key or browse URL:
-  ```sh
-  npm run test:jira -- GR82TEST-1
-  npm run test:jira -- https://gr8testing.atlassian.net/browse/GR82TEST-1 --grep "Context Menu"
-  ```
+### Forms, inputs, and selection
 
-  This adds a report link only; it does not modify the Jira issue or require Jira credentials.
-  Running `npm test` directly does not add a Jira link.
+- **Ajax form submission** — required fields, validation messages, and form
+  submission behavior.
+- **Simple form** — echoes entered text and adds two numbers.
+- **Input form** — submits contact information and verifies form feedback.
+- **Checkboxes** — checks and unchecks options, disabled choices, independent
+  selections, and the Check All control.
+- **Radio buttons** — selects values and verifies the reported selection.
+- **Select dropdowns** — selects a day and multiple states.
+- **jQuery searchable dropdowns** — selects categorized and multiple options
+  and verifies disabled options.
+- **Key presses** — enters a key and verifies the displayed result.
+- **Overlapped elements** — enters values in fields that overlap.
+- **Geolocation** — verifies the geolocation form fields and labels.
 
-- To fetch a Jira task as a prompt, pass either its issue key or browse URL:
-  ```sh
-  npm run jira:prompt -- GR82TEST-3
-  npm run jira:prompt -- https://gr8testing.atlassian.net/browse/GR82TEST-3
-  ```
+### Dynamic pages, alerts, and interaction
 
-  This optional helper is separate from Playwright test execution. Running
-  `npx playwright test` does not require or invoke Copilot CLI. The helper prints
-  the issue details, then sends the Jira description to an interactive Copilot CLI session.
+- **Auto Healing** — submits the form and checks the username field after its
+  DOM ID changes.
+- **Dynamic data loading** — loads user details and an image, then requests
+  another user.
+- **JavaScript alerts** — handles alert, confirmation, and prompt dialogs and
+  verifies their outcomes.
+- **Bootstrap alert messages** — checks autoclosing and manually dismissed
+  success and info alerts.
+- **Context menu** — right-clicks the demo target and checks the resulting
+  alert.
+- **Hover effects** — verifies hover and mouse-out behavior across text,
+  buttons, links, and images.
+- **Drag and drop** — moves items between source and target areas and resets
+  the demo.
+- **Range sliders** — checks defaults, value updates, limits, and invalid
+  ranges.
+- **Shadow DOM** — finds the shadow host and interacts with its controls.
+- **iFrames and nested frames** — interacts with embedded content and checks
+  nested frame structure.
+- **Virtual DOM** — verifies that live clock values are displayed.
+- **Window popup/modal** — opens the configured destination in a popup.
 
-  On Windows, run `npm run jira:credential:save` once to store your Jira email and API
-  token in Windows Credential Manager. Subsequent runs read the token from there. You can
-  also provide `JIRA_EMAIL` and `JIRA_API_TOKEN` environment variables; outside Windows,
-  both are required. The command prints the issue summary, description, status, priority,
-  labels, components, and environment; it does not change the Jira issue. `JIRA_BASE_URL`
-  can override the default Jira site.
+### Bootstrap and jQuery widgets
+
+- **Bootstrap date picker** — selects, clears, and edits individual dates and
+  date ranges.
+- **Bootstrap download progress** — checks the initial state and successful
+  completion.
+- **Bootstrap list boxes** — searches and moves entries between lists.
+- **Bootstrap modals** — checks single, multiple, and nested modal controls.
+- **Bootstrap progress dialogs** — verifies the available timed-dialog
+  controls.
+- **jQuery date picker** — selects a date range from the calendar.
+- **jQuery download progress bar** — starts the download dialog, checks status
+  and progress controls, and cancels it.
+- **jQuery dual list box** — moves a selected item between lists.
+
+### Tables, files, and page content
+
+- **Data list filter** — searches attendee cards, including case-insensitive
+  queries and no-result states.
+- **Table filter and search** — filters rows by input and restores the full
+  list.
+- **Table pagination** — changes the number of visible records.
+- **Table sorting and search** — searches records and sorts table columns.
+- **Table data download** — exports table data as CSV.
+- **File download** — checks the download link and downloaded PDF.
+- **File generation** — generates and downloads a text file.
+- **File upload** — selects a file and verifies it is accepted.
+- **Broken image demo** — checks image examples and their failed-load state.
+- **Status codes** — verifies explanations for common HTTP response codes.
+
+## Running tests
+
+From the repository root:
+
+```sh
+npm test
+npx playwright test
+```
+
+Run a specific spec or filter by test title:
+
+```sh
+npx playwright test playwright-pom/src/tests/login.spec.ts
+npx playwright test --grep "Checkbox Demo"
+```
+
+Run with a different base URL:
+
+```powershell
+$env:BASE_URL = "https://example.test"
+npm test
+```
+
+`BASE_URL` defaults to `https://www.testmuai.com`; trailing slashes are removed
+before page paths are added.
+
+## Reports and optional commands
+
+The npm scripts for framework tooling are defined in
+`playwright-pom/package.json`. Run them from `playwright-pom`, or invoke them
+from the repository root with `npm run <script> --workspace playwright-pom`.
+
+| Command | Purpose |
+| --- | --- |
+| `npm run test:report` | Run tests with the HTML reporter |
+| `npm run show:report` | Open the latest HTML report |
+| `npm run test:allure` | Run tests with HTML, line, and Allure reporters |
+| `npm run allure:generate` | Generate an Allure report from `allure-results` |
+| `npm run allure:open` | Open the generated Allure report |
+| `npm run build` | Type-check and compile the TypeScript source |
+
+The root `npm test` command uses the repository-root config and HTML reporter.
+For Jira-linked Allure results, run the Jira-aware test script from
+`playwright-pom`:
+
+```sh
+npm run test:jira -- GR82TEST-1
+npm run test:jira -- https://gr8testing.atlassian.net/browse/GR82TEST-1 --grep "Context Menu"
+```
+
+This optional command adds the issue link to the Allure report; it does not
+modify Jira or require Jira credentials. `JIRA_BASE_URL` can override the Jira
+site.
+
+The optional Jira prompt helper fetches an issue and prints its details, then
+sends its description to an interactive Copilot CLI session:
+
+```sh
+npm run jira:prompt -- GR82TEST-3
+npm run jira:prompt -- https://gr8testing.atlassian.net/browse/GR82TEST-3
+```
+
+This helper is separate from Playwright test execution. On Windows,
+`npm run jira:credential:save` stores Jira credentials in Windows Credential
+Manager. Alternatively, set `JIRA_EMAIL` and `JIRA_API_TOKEN` environment
+variables. Jira credentials and Copilot CLI are not needed to run the tests.
 
 ## Contributing
 
-Feel free to submit issues or pull requests to improve the framework or add new features.
+Add or update page objects in `src/pages/` and their corresponding tests in
+`src/tests/`. Keep selectors and page-specific interactions in page objects,
+and use Playwright assertions in specs to express the expected behavior.

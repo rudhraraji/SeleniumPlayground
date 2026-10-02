@@ -39,7 +39,7 @@ const child = spawn(
   process.execPath,
   [playwrightCli, 'test', ...process.argv.slice(3)],
   {
-    env: { ...process.env, JIRA_ISSUE_KEY: issueKey },
+    env: { ...process.env, JIRA_TC_KEY: issueKey },
     stdio: 'inherit',
   },
 );

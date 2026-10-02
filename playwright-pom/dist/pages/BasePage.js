@@ -23,6 +23,7 @@ class BasePage {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.navigateTo(url);
             yield this.page.waitForLoadState('load');
+            yield this.page.waitForLoadState('networkidle');
             yield (0, test_1.expect)(readyLocator).toBeVisible();
         });
     }
