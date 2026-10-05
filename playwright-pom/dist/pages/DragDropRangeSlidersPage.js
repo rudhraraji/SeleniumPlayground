@@ -36,13 +36,20 @@ class DragDropRangeSlidersPage extends BasePage_1.default {
             if (value < min || value > max) {
                 throw new Error(`Slider value ${value} is outside the supported range ${min}-${max}`);
             }
-            yield slider.focus();
-            yield slider.press('Home');
-            for (let current = min; current < value; current += 1) {
-                yield slider.press('ArrowRight');
+            const currentValue = Number(yield slider.inputValue());
+            const step = Number(yield slider.getAttribute('step')) || 1;
+            const key = value > currentValue ? 'ArrowRight' : 'ArrowLeft';
+            const steps = Math.abs(value - currentValue) / step;
+            if (!Number.isInteger(steps)) {
+                throw new Error(`Slider value ${value} cannot be reached with step ${step}`);
             }
+            yield slider.focus();
+            for (let currentStep = 0; currentStep < steps; currentStep += 1) {
+                yield slider.press(key);
+            }
+            const output = slider.locator('xpath=..').locator('output');
             yield (0, test_1.expect)(slider).toHaveValue(String(value));
-            yield (0, test_1.expect)(slider.locator('xpath=..').locator('output')).toHaveText(String(value));
+            yield (0, test_1.expect)(output).toHaveText(String(value));
         });
     }
 }

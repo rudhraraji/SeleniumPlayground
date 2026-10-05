@@ -20,6 +20,8 @@ export default class ContextMenuPage extends BasePage {
 
   async open(): Promise<void> {
     await this.navigateTo(this.url);
+    await this.page.waitForLoadState('networkidle');
     await expect(this.heading).toBeVisible();
+    await expect(this.contextMenuTarget).toBeVisible();
   }
 }

@@ -77,8 +77,8 @@ playwright-pom
   Test results are written to `allure-results/` and the generated report to `allure-report/`.
   To link a test run to a Jira issue in Allure, pass its key or browse URL:
   ```sh
-  npm run test:jira -- GR82TEST-4
-  npm run test:jira -- https://gr8testing.atlassian.net/browse/GR82TEST-4 --grep "Context Menu"
+  npm run test:jira -- GR82TEST-1
+  npm run test:jira -- https://gr8testing.atlassian.net/browse/GR82TEST-1 --grep "Context Menu"
   ```
 
   This adds a report link only; it does not modify the Jira issue or require Jira credentials.
@@ -90,9 +90,8 @@ playwright-pom
   npm run jira:prompt -- https://gr8testing.atlassian.net/browse/GR82TEST-3
   ```
 
-  The issue details are printed and passed to GitHub Copilot CLI as the task prompt.
-  Copilot inspects the relevant code, summarizes its findings and proposed coverage, then
-  waits for explicit approval before editing.
+  The issue details are printed, then the Jira description is sent directly to an
+  interactive GitHub Copilot CLI session as its initial prompt.
 
   On Windows, run `npm run jira:credential:save` once to store your Jira email and API
   token in Windows Credential Manager. Subsequent runs read the token from there. You can

@@ -26,13 +26,20 @@ export default class DragDropRangeSlidersPage extends BasePage {
       throw new Error(`Slider value ${value} is outside the supported range ${min}-${max}`);
     }
 
+    const currentValue = Number(await slider.inputValue());
+    const step = Number(await slider.getAttribute('step')) || 1;
+    const key = value > currentValue ? 'ArrowRight' : 'ArrowLeft';
+    const steps = Math.abs(value - currentValue) / step;
+    if (!Number.isInteger(steps)) {
+      throw new Error(`Slider value ${value} cannot be reached with step ${step}`);
+    }
     await slider.focus();
-    await slider.press('Home');
-    for (let current = min; current < value; current += 1) {
-      await slider.press('ArrowRight');
+    for (let currentStep = 0; currentStep < steps; currentStep += 1) {
+      await slider.press(key);
     }
 
+    const output = slider.locator('xpath=..').locator('output');
     await expect(slider).toHaveValue(String(value));
-    await expect(slider.locator('xpath=..').locator('output')).toHaveText(String(value));
+    await expect(output).toHaveText(String(value));
   }
 }

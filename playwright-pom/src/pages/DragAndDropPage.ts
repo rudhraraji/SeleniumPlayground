@@ -26,5 +26,8 @@ export default class DragAndDropPage extends BasePage {
   async open(): Promise<void> {
     await this.navigateTo(this.url);
     await expect(this.heading).toBeVisible();
+    await this.page.waitForFunction(() => {
+      return typeof (window as Window & { __resetDragDropDemo?: () => void }).__resetDragDropDemo === 'function';
+    });
   }
 }

@@ -23,6 +23,8 @@ class IframeDemoPage extends BasePage_1.default {
         this.editorFrame = page.frameLocator('#iFrame1');
         this.webpageFrame = page.frameLocator('#iFrame2');
         this.editor = this.editorFrame.locator('[contenteditable="true"]');
+        this.editorBody = this.editorFrame.locator('body');
+        this.webpageBody = this.webpageFrame.locator('body');
         this.boldButton = this.editorFrame.getByTitle('Bold');
         this.italicButton = this.editorFrame.getByTitle('Italic');
         this.alignCenterButton = this.editorFrame.getByTitle('Align center');
@@ -33,6 +35,28 @@ class IframeDemoPage extends BasePage_1.default {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.navigateTo(this.url);
             yield (0, test_1.expect)(this.heading).toBeVisible();
+        });
+    }
+    assertEditorContains(text) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield (0, test_1.expect)(this.editor).toContainText(text);
+        });
+    }
+    assertEditorText(text) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield (0, test_1.expect)(this.editor).toHaveText(text);
+        });
+    }
+    editEditor(text) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield (0, test_1.expect)(this.editor).toBeVisible();
+            yield this.editor.fill(text);
+            yield (0, test_1.expect)(this.editor).toHaveText(text);
+        });
+    }
+    assertSecondFrameVisible() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield (0, test_1.expect)(this.webpageBody).toBeVisible();
         });
     }
 }

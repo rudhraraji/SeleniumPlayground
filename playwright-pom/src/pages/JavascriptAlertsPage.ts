@@ -28,4 +28,39 @@ export default class JavascriptAlertsPage extends BasePage {
     await this.page.waitForLoadState('networkidle');
     await expect(this.heading).toBeVisible();
   }
+
+  async triggerAlert(): Promise<void> {
+    const dialogPromise = this.page.waitForEvent('dialog');
+    const clickPromise = this.alertButton.click();
+    const dialog = await dialogPromise;
+
+    expect(dialog.type()).toBe('alert');
+    expect(dialog.message()).toBe('I am an alert box!');
+    await dialog.accept();
+    await clickPromise;
+  }
+
+  async acceptConfirm(): Promise<void> {
+    const dialogPromise = this.page.waitForEvent('dialog');
+    const clickPromise = this.confirmButton.click();
+    const dialog = await dialogPromise;
+
+    expect(dialog.type()).toBe('confirm');
+    expect(dialog.message()).toBe('Press a button!');
+    await dialog.accept();
+    await clickPromise;
+    await expect(this.result).toHaveText('You pressed OK!');
+  }
+
+  async enterPrompt(value: string): Promise<void> {
+    const dialogPromise = this.page.waitForEvent('dialog');
+    const clickPromise = this.promptButton.click();
+    const dialog = await dialogPromise;
+
+    expect(dialog.type()).toBe('prompt');
+    expect(dialog.message()).toBe('Please enter your name');
+    await dialog.accept(value);
+    await clickPromise;
+    await expect(this.result).toHaveText(`You have entered '${value}' !`);
+  }
 }

@@ -43,5 +43,26 @@ class InputFormDemoPage extends BasePage_1.default {
             yield (0, test_1.expect)(this.heading).toBeVisible();
         });
     }
+    fillForm(details) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.nameInput.fill(details.name);
+            yield this.emailInput.fill(details.email);
+            yield this.passwordInput.fill(details.password);
+            yield this.companyInput.fill(details.company);
+            yield this.websiteInput.fill(details.website);
+            yield this.countrySelect.selectOption({ label: details.country });
+            yield this.cityInput.fill(details.city);
+            yield this.addressLine1Input.fill(details.addressLine1);
+            yield this.addressLine2Input.fill(details.addressLine2);
+            yield this.stateInput.fill(details.state);
+            yield this.zipInput.fill(details.zip);
+        });
+    }
+    submitForm() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.submitButton.click();
+            yield (0, test_1.expect)(this.successMessage).toBeVisible();
+        });
+    }
 }
 exports.default = InputFormDemoPage;

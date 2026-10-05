@@ -2,6 +2,20 @@ import { expect, Locator, Page } from '@playwright/test';
 import BasePage from './BasePage';
 import { appUrl } from '../config/environment';
 
+export interface ContactDetails {
+  name: string;
+  email: string;
+  password: string;
+  company: string;
+  website: string;
+  country: string;
+  city: string;
+  addressLine1: string;
+  addressLine2: string;
+  state: string;
+  zip: string;
+}
+
 export default class InputFormDemoPage extends BasePage {
   readonly url = appUrl('selenium-playground/input-form-demo/');
   readonly heading: Locator;
@@ -43,5 +57,24 @@ export default class InputFormDemoPage extends BasePage {
     await this.navigateTo(this.url);
     await this.page.waitForLoadState('networkidle');
     await expect(this.heading).toBeVisible();
+  }
+
+  async fillForm(details: ContactDetails): Promise<void> {
+    await this.nameInput.fill(details.name);
+    await this.emailInput.fill(details.email);
+    await this.passwordInput.fill(details.password);
+    await this.companyInput.fill(details.company);
+    await this.websiteInput.fill(details.website);
+    await this.countrySelect.selectOption({ label: details.country });
+    await this.cityInput.fill(details.city);
+    await this.addressLine1Input.fill(details.addressLine1);
+    await this.addressLine2Input.fill(details.addressLine2);
+    await this.stateInput.fill(details.state);
+    await this.zipInput.fill(details.zip);
+  }
+
+  async submitForm(): Promise<void> {
+    await this.submitButton.click();
+    await expect(this.successMessage).toBeVisible();
   }
 }

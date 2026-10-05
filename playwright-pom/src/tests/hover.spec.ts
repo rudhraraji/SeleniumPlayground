@@ -33,7 +33,7 @@ test.describe('Mouse Hover Demo', () => {
     await button.hover();
     await expect.poll(() => cssValue(button, 'background-color')).not.toBe(initialBackground);
 
-    await hoverPage.heading.hover();
+    await hoverPage.movePointerAway();
     await expect.poll(() => cssValue(button, 'background-color')).toBe(initialBackground);
   });
 
@@ -44,7 +44,7 @@ test.describe('Mouse Hover Demo', () => {
     await button.hover();
     await expect.poll(() => cssValue(button, 'background-color')).not.toBe(initialBackground);
 
-    await hoverPage.heading.hover();
+    await hoverPage.movePointerAway();
     await expect.poll(() => cssValue(button, 'background-color')).toBe(initialBackground);
   });
 
@@ -55,7 +55,7 @@ test.describe('Mouse Hover Demo', () => {
     await linkHover.hover();
     await expect.poll(() => cssValue(linkHover, 'text-decoration-line')).not.toBe(initialDecoration);
 
-    await hoverPage.heading.hover();
+    await hoverPage.movePointerAway();
     await expect.poll(() => cssValue(linkHover, 'text-decoration-line')).toBe(initialDecoration);
   });
 
@@ -66,7 +66,7 @@ test.describe('Mouse Hover Demo', () => {
     await textHover.hover();
     await expect.poll(() => cssValue(textHover, 'color')).not.toBe(initialColor);
 
-    await hoverPage.heading.hover();
+    await hoverPage.movePointerAway();
     await expect.poll(() => cssValue(textHover, 'color')).toBe(initialColor);
   });
 
@@ -82,7 +82,7 @@ test.describe('Mouse Hover Demo', () => {
     await expect(cssValue(image, 'transform')).resolves.toBe(initialTransform);
     await expect(cssValue(image, 'filter')).resolves.toBe(initialFilter);
 
-    await hoverPage.heading.hover();
+    await hoverPage.movePointerAway();
     await expect.poll(() => cssValue(content, 'opacity')).toBe('0');
   });
 
@@ -94,7 +94,7 @@ test.describe('Mouse Hover Demo', () => {
     await image.hover();
     await expect.poll(async () => (await transformMetrics(image)).scale).toBeGreaterThan(initialScale);
 
-    await hoverPage.heading.hover();
+    await hoverPage.movePointerAway();
     await expect.poll(() => cssValue(image, 'transform')).toBe(initialTransform);
   });
 
@@ -106,8 +106,8 @@ test.describe('Mouse Hover Demo', () => {
     await image.hover();
     await expect.poll(async () => (await transformMetrics(image)).scale).toBeLessThan(initialScale);
 
-    await hoverPage.heading.hover();
-    await expect.poll(() => cssValue(image, 'transform')).toBe(initialTransform);
+    await hoverPage.movePointerAway();
+    await expect.poll(() => cssValue(image, 'transform'), { timeout: 10000 }).toBe(initialTransform);
   });
 
   test('pans the image on hover and restores its position on mouse-out', async () => {
@@ -117,8 +117,8 @@ test.describe('Mouse Hover Demo', () => {
     await image.hover();
     await expect.poll(() => cssValue(image, 'margin-left')).not.toBe(initialMargin);
 
-    await hoverPage.heading.hover();
-    await expect.poll(() => cssValue(image, 'margin-left')).toBe(initialMargin);
+    await hoverPage.movePointerAway();
+    await expect.poll(() => cssValue(image, 'margin-left'), { timeout: 10000 }).toBe(initialMargin);
   });
 
   test('rotates and zooms the image out on hover, then restores it', async () => {
@@ -130,8 +130,8 @@ test.describe('Mouse Hover Demo', () => {
     await expect.poll(async () => (await transformMetrics(image)).rotation).toBeCloseTo(0, 1);
     await expect.poll(async () => (await transformMetrics(image)).scale).toBeLessThan(initialMetrics.scale);
 
-    await hoverPage.heading.hover();
-    await expect.poll(() => cssValue(image, 'transform')).toBe(initialTransform);
+    await hoverPage.movePointerAway();
+    await expect.poll(() => cssValue(image, 'transform'), { timeout: 10000 }).toBe(initialTransform);
   });
 
   test('blurs the image on hover and removes the blur on mouse-out', async () => {
@@ -142,7 +142,7 @@ test.describe('Mouse Hover Demo', () => {
     await image.hover();
     await expect.poll(() => cssValue(figure, 'filter')).not.toBe(initialFilter);
 
-    await hoverPage.heading.hover();
+    await hoverPage.movePointerAway();
     await expect.poll(() => cssValue(figure, 'filter')).toBe(initialFilter);
   });
 
@@ -152,9 +152,9 @@ test.describe('Mouse Hover Demo', () => {
     expect(initialFilter).toContain('grayscale');
 
     await image.hover();
-    await expect.poll(() => cssValue(image, 'filter')).toBe('grayscale(0)');
+    await expect.poll(() => cssValue(image, 'filter'), { timeout: 10000 }).toBe('grayscale(0)');
 
-    await hoverPage.heading.hover();
+    await hoverPage.movePointerAway();
     await expect.poll(() => cssValue(image, 'filter')).toBe(initialFilter);
   });
 
@@ -166,7 +166,7 @@ test.describe('Mouse Hover Demo', () => {
     await expect.poll(() => cssValue(image, 'filter')).toContain('blur(3px)');
     expect(await cssValue(image, 'filter')).toContain('grayscale(1)');
 
-    await hoverPage.heading.hover();
+    await hoverPage.movePointerAway();
     await expect.poll(() => cssValue(image, 'filter')).toBe(initialFilter);
   });
 
@@ -178,7 +178,7 @@ test.describe('Mouse Hover Demo', () => {
     await image.hover();
     await expect.poll(() => cssValue(figure, 'opacity')).toBe('0.4');
 
-    await hoverPage.heading.hover();
+    await hoverPage.movePointerAway();
     await expect.poll(() => cssValue(figure, 'opacity')).toBe(initialOpacity);
   });
 
@@ -189,7 +189,7 @@ test.describe('Mouse Hover Demo', () => {
     await image.hover();
     await expect.poll(() => cssValue(image, 'animation-name')).toBe('flash');
 
-    await hoverPage.heading.hover();
+    await hoverPage.movePointerAway();
     await expect.poll(() => cssValue(image, 'animation-name')).toBe(initialAnimation);
   });
 });

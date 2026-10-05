@@ -8,6 +8,8 @@ export default class IframeDemoPage extends BasePage {
   readonly editorFrame: FrameLocator;
   readonly webpageFrame: FrameLocator;
   readonly editor: Locator;
+  readonly editorBody: Locator;
+  readonly webpageBody: Locator;
   readonly boldButton: Locator;
   readonly italicButton: Locator;
   readonly alignCenterButton: Locator;
@@ -20,6 +22,8 @@ export default class IframeDemoPage extends BasePage {
     this.editorFrame = page.frameLocator('#iFrame1');
     this.webpageFrame = page.frameLocator('#iFrame2');
     this.editor = this.editorFrame.locator('[contenteditable="true"]');
+    this.editorBody = this.editorFrame.locator('body');
+    this.webpageBody = this.webpageFrame.locator('body');
     this.boldButton = this.editorFrame.getByTitle('Bold');
     this.italicButton = this.editorFrame.getByTitle('Italic');
     this.alignCenterButton = this.editorFrame.getByTitle('Align center');
@@ -30,5 +34,23 @@ export default class IframeDemoPage extends BasePage {
   async open(): Promise<void> {
     await this.navigateTo(this.url);
     await expect(this.heading).toBeVisible();
+  }
+
+  async assertEditorContains(text: string): Promise<void> {
+    await expect(this.editor).toContainText(text);
+  }
+
+  async assertEditorText(text: string): Promise<void> {
+    await expect(this.editor).toHaveText(text);
+  }
+
+  async editEditor(text: string): Promise<void> {
+    await expect(this.editor).toBeVisible();
+    await this.editor.fill(text);
+    await expect(this.editor).toHaveText(text);
+  }
+
+  async assertSecondFrameVisible(): Promise<void> {
+    await expect(this.webpageBody).toBeVisible();
   }
 }

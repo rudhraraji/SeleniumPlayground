@@ -31,6 +31,9 @@ class DragAndDropPage extends BasePage_1.default {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.navigateTo(this.url);
             yield (0, test_1.expect)(this.heading).toBeVisible();
+            yield this.page.waitForFunction(() => {
+                return typeof window.__resetDragDropDemo === 'function';
+            });
         });
     }
 }

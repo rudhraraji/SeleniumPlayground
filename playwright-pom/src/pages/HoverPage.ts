@@ -21,6 +21,11 @@ export default class HoverPage extends BasePage {
     await expect(this.heading).toBeVisible();
   }
 
+  async movePointerAway(): Promise<void> {
+    await this.page.evaluate(() => window.scrollTo(0, 0));
+    await this.page.mouse.move(0, 0);
+  }
+
   buttonTargets(sectionIndex: number): Locator {
     return this.buttonSectionHeadings
       .nth(sectionIndex)

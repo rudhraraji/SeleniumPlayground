@@ -18,7 +18,7 @@ test.describe('Drag and Drop Demo', () => {
   });
 
   test('moves a dragged item to the dropped items list', async () => {
-    await dragAndDropPage.draggableItems.first().dragTo(dragAndDropPage.dropTarget);
+    await dragAndDropPage.draggableItems.first().dragTo(dragAndDropPage.dropTarget, { steps: 10 });
 
     await expect(dragAndDropPage.droppedItems).toHaveText('Draggable 1');
     await expect(dragAndDropPage.draggableItems).toHaveCount(1);
@@ -26,7 +26,7 @@ test.describe('Drag and Drop Demo', () => {
   });
 
   test('reset restores draggable items and clears the dropped items list', async () => {
-    await dragAndDropPage.draggableItems.first().dragTo(dragAndDropPage.dropTarget);
+    await dragAndDropPage.draggableItems.first().dragTo(dragAndDropPage.dropTarget, { steps: 10 });
     await expect(dragAndDropPage.droppedItems).toHaveText('Draggable 1');
 
     await dragAndDropPage.resetButton.click();

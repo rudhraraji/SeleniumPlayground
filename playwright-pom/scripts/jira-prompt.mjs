@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 
 const DEFAULT_JIRA_BASE_URL = 'https://gr8testing.atlassian.net';
 const CREDENTIAL_SCRIPT = fileURLToPath(new URL('./jira-credential.ps1', import.meta.url));
+const REPOSITORY_ROOT = fileURLToPath(new URL('../../', import.meta.url));
 
 function getIssueKey(input, baseUrl) {
   let issueKey = input.trim();
@@ -91,6 +92,35 @@ function getStoredCredentials() {
   return credentials;
 }
 
+function sendToCopilot(description) {
+  const npmCli = process.env.npm_execpath;
+  if (!npmCli) {
+    throw new Error('Run this command through npm to send the Jira description to Copilot CLI');
+  }
+
+  const result = spawnSync(process.execPath, [
+    npmCli,
+    'exec',
+    '--yes',
+    '--package',
+    '@github/copilot',
+    '--',
+    'copilot',
+    '--interactive',
+    description,
+    '--allow-all-tools',
+    '--add-dir',
+    REPOSITORY_ROOT,
+  ], { stdio: 'inherit', windowsHide: true });
+
+  if (result.error) {
+    throw new Error(`Unable to start GitHub Copilot CLI: ${result.error.message}`);
+  }
+  if (result.status !== 0) {
+    process.exitCode = result.status ?? 1;
+  }
+}
+
 async function main() {
   const input = process.argv[2];
   if (!input || process.argv.length > 3) {
@@ -161,40 +191,9 @@ async function main() {
     lines.push('', 'Environment:', extractDescription(fields.environment).trim());
   }
 
-  const jiraContext = lines.join('\n');
-  console.log(jiraContext);
-
-  const npmCli = process.env.npm_execpath;
-  if (!npmCli) {
-    throw new Error('Run this command through npm so the Jira context can be sent to Copilot CLI');
-  }
-
-  const copilotPrompt = [
-    'Work on the following Jira task in this repository.',
-    'Inspect the relevant page and existing tests, then summarize the findings and proposed test coverage.',
-    'Do not edit files until I explicitly approve. Ask me if an effect or expected behavior is unclear.',
-    '',
-    jiraContext,
-  ].join('\n');
-  const copilot = spawnSync(process.execPath, [
-    npmCli,
-    'exec',
-    '--yes',
-    '--package',
-    '@github/copilot',
-    '--',
-    'copilot',
-    '--allow-all',
-    '--prompt',
-    copilotPrompt,
-  ], { stdio: 'inherit', windowsHide: true });
-
-  if (copilot.error) {
-    throw new Error(`Unable to start GitHub Copilot CLI: ${copilot.error.message}`);
-  }
-  if (copilot.status !== 0) {
-    process.exitCode = copilot.status ?? 1;
-  }
+  console.log(lines.join('\n'));
+  console.log('\nSending the Jira description to GitHub Copilot CLI...\n');
+  sendToCopilot(description);
 }
 
 main().catch(error => {
