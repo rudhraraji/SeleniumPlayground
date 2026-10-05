@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import TablePaginationPage from '../pages/TablePaginationPage';
 
 test('Table Pagination Demo › changes the number of visible records', async ({ page }) => {

@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import RadioButtonPage from '../pages/RadioButtonPage';
 
 test('Radio Button Demo › reports the selected gender and age group', async ({ page }) => {

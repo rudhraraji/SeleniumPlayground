@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import BootstrapDatePickerDemoPage from '../pages/BootstrapDatePickerDemoPage';
 
 test('Bootstrap Date Picker Demo › selects and clears a single date', async ({ page }) => {
@@ -32,3 +32,14 @@ test('Bootstrap Date Picker Demo › accepts a start and end date range', async 
   await expect(datePickerPage.endDateInput).toHaveValue('09/30/2026');
 });
 
+test('Bootstrap Date Picker Demo › clears one range date without changing the other', async ({ page }) => {
+  const datePickerPage = new BootstrapDatePickerDemoPage(page);
+  await datePickerPage.open();
+
+  await datePickerPage.startDateInput.fill('09/28/2026');
+  await datePickerPage.endDateInput.fill('09/30/2026');
+  await datePickerPage.startDateInput.fill('');
+
+  await expect(datePickerPage.startDateInput).toHaveValue('');
+  await expect(datePickerPage.endDateInput).toHaveValue('09/30/2026');
+});

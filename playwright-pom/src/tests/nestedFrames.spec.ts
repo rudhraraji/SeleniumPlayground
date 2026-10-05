@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import NestedFramesPage from '../pages/NestedFramesPage';
 
 test('Nested Frames Demo › renders the top frame and its nested frames', async ({ page }) => {

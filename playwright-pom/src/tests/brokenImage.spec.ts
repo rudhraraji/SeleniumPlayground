@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import BrokenImagePage from '../pages/BrokenImagePage';
 
 test('Broken Image Demo › displays both image examples', async ({ page }) => {

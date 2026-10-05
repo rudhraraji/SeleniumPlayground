@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import TableDataDownloadPage from '../pages/TableDataDownloadPage';
 
 test('Table Data Download Demo › exports the data table as CSV', async ({ page }) => {

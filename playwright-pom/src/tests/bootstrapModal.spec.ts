@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import BootstrapModalPage from '../pages/BootstrapModalPage';
 
 test.describe('Bootstrap Modal Demo', () => {

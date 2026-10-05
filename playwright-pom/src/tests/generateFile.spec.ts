@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import GenerateFilePage from '../pages/GenerateFilePage';
 
 test('File Download Demo › generates and downloads a text file', async ({ page }) => {

@@ -5,18 +5,40 @@ import { appUrl } from '../config/environment';
 export default class HoverPage extends BasePage {
   readonly url = appUrl('selenium-playground/hover-demo/');
   readonly heading: Locator;
-  readonly hoverTargets: Locator;
-  readonly hoverImages: Locator;
+  readonly buttonSectionHeadings: Locator;
 
   constructor(page: Page) {
     super(page);
     this.heading = page.getByRole('heading', { name: 'Mouse Hover', exact: true });
-    this.hoverTargets = page.getByText('Hover Me', { exact: true });
-    this.hoverImages = page.locator('figure img[alt="Image"]');
+    this.buttonSectionHeadings = page.getByRole('heading', {
+      name: 'CSS Hover Effects on Button',
+      exact: true,
+    });
   }
 
   async open(): Promise<void> {
     await this.navigateTo(this.url);
     await expect(this.heading).toBeVisible();
+  }
+
+  buttonTargets(sectionIndex: number): Locator {
+    return this.buttonSectionHeadings
+      .nth(sectionIndex)
+      .locator('xpath=following-sibling::div[1]')
+      .locator(':scope > div');
+  }
+
+  imageEffectSection(name: string): Locator {
+    return this.page
+      .getByRole('heading', { name, exact: true })
+      .locator('xpath=following-sibling::*[1]');
+  }
+
+  image(name: string): Locator {
+    return this.imageEffectSection(name).locator('img');
+  }
+
+  imageFigure(name: string): Locator {
+    return this.imageEffectSection(name).locator('figure');
   }
 }

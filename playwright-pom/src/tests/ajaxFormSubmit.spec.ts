@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import PlaygroundPage from '../pages/PlaygroundPage';
 import AjaxFormSubmitPage from '../pages/AjaxFormSubmitPage';
 import urlLinks from '../data/playgroundLinks.json';

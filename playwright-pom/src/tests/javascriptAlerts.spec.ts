@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import JavascriptAlertsPage from '../pages/JavascriptAlertsPage';
 
 test.describe('JavaScript Alert Box Demo', () => {

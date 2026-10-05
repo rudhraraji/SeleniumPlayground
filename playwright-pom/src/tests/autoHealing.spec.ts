@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import AutoHealingPage from '../pages/AutoHealingPage';
 
 test.describe('Auto Healing Demo', () => {

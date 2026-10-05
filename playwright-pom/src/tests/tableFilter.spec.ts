@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import TableFilterPage from '../pages/TableFilterPage';
 
 test('Table Filter Demo › filters records and restores all rows', async ({ page }) => {

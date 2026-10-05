@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import VirtualDomPage from '../pages/VirtualDomPage';
 
 test('Virtual DOM Demo › displays live clock readouts', async ({ page }) => {

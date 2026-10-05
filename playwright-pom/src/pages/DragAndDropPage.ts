@@ -8,15 +8,19 @@ export default class DragAndDropPage extends BasePage {
   readonly resetButton: Locator;
   readonly draggableItems: Locator;
   readonly dropTarget: Locator;
+  readonly droppedItems: Locator;
   readonly secondDemoDragTarget: Locator;
+  readonly secondDemoDropTarget: Locator;
 
   constructor(page: Page) {
     super(page);
     this.heading = page.getByRole('heading', { name: 'Drag and Drop Demo', exact: true });
     this.resetButton = page.getByRole('button', { name: 'Reset', exact: true });
     this.draggableItems = page.locator('[draggable="true"]');
-    this.dropTarget = page.getByText('Drop here', { exact: true }).first();
+    this.dropTarget = page.locator('#mydropzone');
+    this.droppedItems = page.locator('#droppedlist');
     this.secondDemoDragTarget = page.getByText('Drag me to my target', { exact: true });
+    this.secondDemoDropTarget = page.locator('#droppable');
   }
 
   async open(): Promise<void> {

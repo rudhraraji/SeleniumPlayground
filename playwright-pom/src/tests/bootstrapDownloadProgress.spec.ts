@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import BootstrapDownloadProgressPage from '../pages/BootstrapDownloadProgressPage';
 
 test('Bootstrap Download Progress Demo › starts at zero with an empty status', async ({ page }) => {

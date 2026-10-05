@@ -22,8 +22,10 @@ class DragAndDropPage extends BasePage_1.default {
         this.heading = page.getByRole('heading', { name: 'Drag and Drop Demo', exact: true });
         this.resetButton = page.getByRole('button', { name: 'Reset', exact: true });
         this.draggableItems = page.locator('[draggable="true"]');
-        this.dropTarget = page.getByText('Drop here', { exact: true }).first();
+        this.dropTarget = page.locator('#mydropzone');
+        this.droppedItems = page.locator('#droppedlist');
         this.secondDemoDragTarget = page.getByText('Drag me to my target', { exact: true });
+        this.secondDemoDropTarget = page.locator('#droppable');
     }
     open() {
         return __awaiter(this, void 0, void 0, function* () {

@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import RedirectionPage from '../pages/RedirectionPage';
 
 test('Redirection Demo › follows the link to the playground', async ({ page }) => {

@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import CheckboxPage from '../pages/CheckboxPage';
 
 test.describe('Checkbox Demo', () => {

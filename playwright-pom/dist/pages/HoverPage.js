@@ -20,14 +20,33 @@ class HoverPage extends BasePage_1.default {
         super(page);
         this.url = (0, environment_1.appUrl)('selenium-playground/hover-demo/');
         this.heading = page.getByRole('heading', { name: 'Mouse Hover', exact: true });
-        this.hoverTargets = page.getByText('Hover Me', { exact: true });
-        this.hoverImages = page.locator('figure img[alt="Image"]');
+        this.buttonSectionHeadings = page.getByRole('heading', {
+            name: 'CSS Hover Effects on Button',
+            exact: true,
+        });
     }
     open() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.navigateTo(this.url);
             yield (0, test_1.expect)(this.heading).toBeVisible();
         });
+    }
+    buttonTargets(sectionIndex) {
+        return this.buttonSectionHeadings
+            .nth(sectionIndex)
+            .locator('xpath=following-sibling::div[1]')
+            .locator(':scope > div');
+    }
+    imageEffectSection(name) {
+        return this.page
+            .getByRole('heading', { name, exact: true })
+            .locator('xpath=following-sibling::*[1]');
+    }
+    image(name) {
+        return this.imageEffectSection(name).locator('img');
+    }
+    imageFigure(name) {
+        return this.imageEffectSection(name).locator('figure');
     }
 }
 exports.default = HoverPage;

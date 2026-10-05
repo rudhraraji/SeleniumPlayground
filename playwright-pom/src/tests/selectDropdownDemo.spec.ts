@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import SelectDropdownDemoPage from '../pages/SelectDropdownDemoPage';
 
 test('Dropdown Demo › selects a day and multiple states', async ({ page }) => {

@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import SimpleFormPage from '../pages/SimpleFormPage';
 
 test('Simple Form Demo › echoes a message and calculates a sum', async ({ page }) => {

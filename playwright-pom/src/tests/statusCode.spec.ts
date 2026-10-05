@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import StatusCodePage from '../pages/StatusCodePage';
 
 test('Status Codes Demo › explains the standard response codes', async ({ page }) => {

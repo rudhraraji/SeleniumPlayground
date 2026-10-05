@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import BootstrapProgressBarDialogPage from '../pages/BootstrapProgressBarDialogPage';
 
 test.describe('Bootstrap Progress Bar Dialog Demo', () => {

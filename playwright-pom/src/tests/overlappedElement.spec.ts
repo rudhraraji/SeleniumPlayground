@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import OverlappedElementPage from '../pages/OverlappedElementPage';
 
 test('Overlapped Element Demo › accepts values in each form field', async ({ page }) => {

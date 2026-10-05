@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import TableSortSearchPage from '../pages/TableSortSearchPage';
 
 test('Table Sorting And Searching Demo › searches and sorts table records', async ({ page }) => {

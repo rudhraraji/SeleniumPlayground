@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import JqueryDatePickerPage from '../pages/JqueryDatePickerPage';
 
 test('JQuery Date Picker Demo › accepts a date range', async ({ page }) => {

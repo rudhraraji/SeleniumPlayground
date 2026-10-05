@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import JqueryDualListBoxPage from '../pages/JqueryDualListBoxPage';
 
 test('JQuery Dual List Box Demo › moves a selected item between lists', async ({ page }) => {

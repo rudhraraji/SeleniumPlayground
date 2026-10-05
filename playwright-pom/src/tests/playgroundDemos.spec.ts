@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { test } from '../fixtures/test';
 import PlaygroundDemoPage from '../pages/PlaygroundDemoPage';
 import links from '../data/playgroundLinks.json';
 

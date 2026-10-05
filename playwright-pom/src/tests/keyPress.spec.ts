@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import KeyPressPage from '../pages/KeyPressPage';
 
 test('Key Press Demo › reports the key entered', async ({ page }) => {

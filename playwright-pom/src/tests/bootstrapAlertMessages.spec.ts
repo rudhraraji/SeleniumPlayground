@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import BootstrapAlertMessagesPage from '../pages/BootstrapAlertMessagesPage';
 
 test('Bootstrap Alert Messages › autoclosable success message disappears automatically', async ({ page }) => {

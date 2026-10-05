@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import IframeDemoPage from '../pages/IframeDemoPage';
 
 test('iFrame Demo › edits content inside the rich text editor iframe', async ({ page }) => {

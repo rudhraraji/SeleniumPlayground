@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures/test';
 import JqueryDownloadProgressBarPage from '../pages/JqueryDownloadProgressBarPage';
 
 test('JQuery Download Progress-Bar Demo › shows the download progress dialog', async ({ page }) => {
