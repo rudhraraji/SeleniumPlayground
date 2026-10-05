@@ -36,5 +36,40 @@ class JavascriptAlertsPage extends BasePage_1.default {
             yield (0, test_1.expect)(this.heading).toBeVisible();
         });
     }
+    triggerAlert() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const dialogPromise = this.page.waitForEvent('dialog');
+            const clickPromise = this.alertButton.click();
+            const dialog = yield dialogPromise;
+            (0, test_1.expect)(dialog.type()).toBe('alert');
+            (0, test_1.expect)(dialog.message()).toBe('I am an alert box!');
+            yield dialog.accept();
+            yield clickPromise;
+        });
+    }
+    acceptConfirm() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const dialogPromise = this.page.waitForEvent('dialog');
+            const clickPromise = this.confirmButton.click();
+            const dialog = yield dialogPromise;
+            (0, test_1.expect)(dialog.type()).toBe('confirm');
+            (0, test_1.expect)(dialog.message()).toBe('Press a button!');
+            yield dialog.accept();
+            yield clickPromise;
+            yield (0, test_1.expect)(this.result).toHaveText('You pressed OK!');
+        });
+    }
+    enterPrompt(value) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const dialogPromise = this.page.waitForEvent('dialog');
+            const clickPromise = this.promptButton.click();
+            const dialog = yield dialogPromise;
+            (0, test_1.expect)(dialog.type()).toBe('prompt');
+            (0, test_1.expect)(dialog.message()).toBe('Please enter your name');
+            yield dialog.accept(value);
+            yield clickPromise;
+            yield (0, test_1.expect)(this.result).toHaveText(`You have entered '${value}' !`);
+        });
+    }
 }
 exports.default = JavascriptAlertsPage;
