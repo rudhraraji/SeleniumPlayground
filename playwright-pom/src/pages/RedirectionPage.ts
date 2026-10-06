@@ -15,7 +15,6 @@ export default class RedirectionPage extends BasePage {
   }
 
   async open(): Promise<void> {
-    await this.navigateTo(this.url);
-    await expect(this.heading).toBeVisible();
+    await this.openPage(this.url, this.heading);
   }
 }

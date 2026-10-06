@@ -11,3 +11,5 @@ playwright-pom/node_modules/.package-lock.json
 playwright-pom/node_modules/
 /playwright-pom/allure-results/
 /playwright-pom/allure-report/
+node_modules
+/test-results/

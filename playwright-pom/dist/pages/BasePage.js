@@ -19,6 +19,13 @@ class BasePage {
             yield this.page.goto(url, { waitUntil: 'domcontentloaded' });
         });
     }
+    openPage(url, readyLocator) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.navigateTo(url);
+            yield this.page.waitForLoadState('load');
+            yield (0, test_1.expect)(readyLocator).toBeVisible();
+        });
+    }
     click(locator) {
         return __awaiter(this, void 0, void 0, function* () {
             yield locator.scrollIntoViewIfNeeded();
@@ -35,45 +42,9 @@ class BasePage {
             yield this.page.waitForLoadState('networkidle');
         });
     }
-    waitForElement(selector) {
+    waitForElement(locator) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.page.locator(selector).waitFor({ state: 'visible' });
-        });
-    }
-    fill(selector, value) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.page.locator(selector).fill(value);
-        });
-    }
-    getText(selector) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return this.page.locator(selector).textContent();
-        });
-    }
-    goto(url) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.navigateTo(url);
-        });
-    }
-    type(locator, value) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield (0, test_1.expect)(locator).toBeVisible();
-            yield locator.fill(value);
-        });
-    }
-    shouldBeVisible(locator) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield (0, test_1.expect)(locator).toBeVisible();
-        });
-    }
-    shouldContainText(locator, text) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield (0, test_1.expect)(locator).toContainText(text);
-        });
-    }
-    shouldHaveCSS(locator, property, value) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield (0, test_1.expect)(locator).toHaveCSS(property, value);
+            yield locator.waitFor({ state: 'visible' });
         });
     }
 }

@@ -54,11 +54,10 @@ export default class AjaxFormSubmitPage extends BasePage {
     expect(['rgb(221, 221, 221)', 'rgb(255, 0, 0)']).toContain(borderColor);
   }
   async waitForTextboxToLoad() {
-    await this.waitForElement('#title');
+    await this.waitForElement(this.txtName);
   }
   async clickSubmitBtn() {
     await this.btnSubmit.scrollIntoViewIfNeeded();
     await this.btnSubmit.click({ force: true });
   }
 }
-

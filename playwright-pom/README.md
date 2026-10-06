@@ -7,52 +7,48 @@ This project is a reusable Playwright framework that implements the Page Object 
 ```
 playwright-pom
 ├── src
-│   ├── pages
-│   │   ├── BasePage.ts        # Shared navigation, interaction, and assertion helpers.
-│   │   └── LoginPage.ts       # Login page interactions and assertions.
-│   ├── tests
-│   │   └── login.spec.ts       # Test suite for the login functionality.
-│   ├── fixtures
-│   │   └── users.ts            # Exports an array of user objects for testing.
-│   └── utils
-│       └── helpers.ts          # Utility functions for common tasks in tests.
-├── playwright.config.ts         # Configuration file for Playwright.
-├── package.json                 # npm configuration file with dependencies and scripts.
-├── tsconfig.json                # TypeScript configuration file.
-├── .gitignore                   # Specifies files to be ignored by Git.
-└── README.md                    # Documentation for the project.
+│   ├── config/       # Base URL and optional Jira report-link configuration.
+│   ├── data/         # Test data and playground navigation links.
+│   ├── fixtures/     # Shared Playwright fixtures and Jira reporting hook.
+│   ├── pages/        # Page objects; shared navigation/readiness is in BasePage.
+│   ├── tests/        # Playwright specs.
+│   └── utils/        # Reusable test utilities.
+├── scripts/          # Jira CLI and Windows credential helpers.
+├── playwright.config.ts
+├── package.json
+├── tsconfig.json
+└── README.md
 ```
 
 ## Setup Instructions
 
-1. **Clone the repository:**
+1. **Clone the repository and install dependencies from its root:**
    ```
    git clone <repository-url>
-   cd playwright-pom
-   ```
-
-2. **Install dependencies:**
-   ```
+   cd <repository-directory>
    npm install
    ```
 
-3. **Run the tests:**
+2. **Run the tests from the repository root:**
    ```
    npx playwright test
    ```
 
 ## Usage
 
-- The `LoginPage` class in `src/pages/LoginPage.ts` encapsulates all interactions with the login page.
-- The test suite in `src/tests/login.spec.ts` demonstrates how to use the `LoginPage` class to perform login tests.
-- Page objects are available as typed fixtures from `src/fixtures/baseTest.ts`, including `loginPage`, `dashboardPage`, `playgroundPage`, `ajaxFormSubmitPage`, and `bootstrapListBoxPage`.
+The npm scripts below are defined in `playwright-pom/package.json`; run them from
+that directory, or use `npm run --workspace playwright-pom <script>` from the repository root.
+
+- Page objects in `src/pages/` encapsulate interactions with each demo. Use `BasePage.openPage(url, readyLocator)` for standard navigation that waits for document load and a visible page landmark; retain explicit readiness checks where a demo needs additional setup.
+- The specs in `src/tests/` exercise those page objects with Playwright.
+- `src/fixtures/baseTest.ts` provides typed page-object fixtures for login, dashboard, playground, Ajax form, and Bootstrap list-box tests. `src/fixtures/test.ts` adds an optional Jira issue link to Allure reports.
 - Set `BASE_URL` to run against another environment. It defaults to `https://www.testmuai.com`.
 
 ## Examples
 
 - To run a specific test file:
   ```
-  npx playwright test src/tests/login.spec.ts
+  npx playwright test playwright-pom/src/tests/login.spec.ts
   ```
 
 - To generate the interactive HTML test report:
@@ -90,8 +86,9 @@ playwright-pom
   npm run jira:prompt -- https://gr8testing.atlassian.net/browse/GR82TEST-3
   ```
 
-  The issue details are printed, then the Jira description is sent directly to an
-  interactive GitHub Copilot CLI session as its initial prompt.
+  This optional helper is separate from Playwright test execution. Running
+  `npx playwright test` does not require or invoke Copilot CLI. The helper prints
+  the issue details, then sends the Jira description to an interactive Copilot CLI session.
 
   On Windows, run `npm run jira:credential:save` once to store your Jira email and API
   token in Windows Credential Manager. Subsequent runs read the token from there. You can

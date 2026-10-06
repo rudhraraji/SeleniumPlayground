@@ -11,6 +11,13 @@ export default class BasePage {
     await this.page.goto(url, { waitUntil: 'domcontentloaded' });
   }
 
+  async openPage(url: string, readyLocator: Locator): Promise<void> {
+    await this.navigateTo(url);
+    await this.page.waitForLoadState('load');
+    await this.page.waitForLoadState('networkidle');
+    await expect(readyLocator).toBeVisible();
+  }
+
   async click(locator: Locator): Promise<void> {
     await locator.scrollIntoViewIfNeeded();
     await locator.click();
@@ -23,36 +30,8 @@ export default class BasePage {
   async waitForPageLoad(): Promise<void> {
     await this.page.waitForLoadState('networkidle');
   }
-   async waitForElement(selector: string): Promise<void> {
-     await this.page.locator(selector).waitFor({ state: 'visible' });
-   }
 
-   async fill(selector: string, value: string): Promise<void> {
-     await this.page.locator(selector).fill(value);
-   }
-
-   async getText(selector: string): Promise<string | null> {
-     return this.page.locator(selector).textContent();
-   }
-
-   async goto(url: string): Promise<void> {
-     await this.navigateTo(url);
-   }
-
-   async type(locator: Locator, value: string): Promise<void> {
-     await expect(locator).toBeVisible();
-     await locator.fill(value);
-   }
-
-   async shouldBeVisible(locator: Locator): Promise<void> {
-     await expect(locator).toBeVisible();
-   }
-
-   async shouldContainText(locator: Locator, text: string): Promise<void> {
-     await expect(locator).toContainText(text);
-   }
-
-   async shouldHaveCSS(locator: Locator, property: string, value: string): Promise<void> {
-     await expect(locator).toHaveCSS(property, value);
-   }
+  async waitForElement(locator: Locator): Promise<void> {
+    await locator.waitFor({ state: 'visible' });
+  }
 }

@@ -68,7 +68,7 @@ class AjaxFormSubmitPage extends BasePage_1.default {
     }
     waitForTextboxToLoad() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.waitForElement('#title');
+            yield this.waitForElement(this.txtName);
         });
     }
     clickSubmitBtn() {

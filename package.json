@@ -1,0 +1,10 @@
+{
+  "name": "selenium-playground",
+  "private": true,
+  "workspaces": [
+    "playwright-pom"
+  ],
+  "devDependencies": {
+    "@playwright/test": "^1.63.0"
+  }
+}

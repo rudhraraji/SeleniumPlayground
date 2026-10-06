@@ -26,8 +26,6 @@ export default class RadioButtonPage extends BasePage {
   }
 
   async open(): Promise<void> {
-    await this.navigateTo(this.url);
-    await this.page.waitForLoadState('networkidle');
-    await expect(this.heading).toBeVisible();
+    await this.openPage(this.url, this.heading);
   }
 }

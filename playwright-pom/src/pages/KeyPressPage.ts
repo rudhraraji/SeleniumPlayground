@@ -17,7 +17,7 @@ export default class KeyPressPage extends BasePage {
 
   async open(): Promise<void> {
     await this.navigateTo(this.url);
-    await this.page.waitForLoadState('networkidle');
+    await this.waitForPageLoad();
     await expect(this.heading).toBeVisible();
   }
 }

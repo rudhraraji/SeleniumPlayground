@@ -12,7 +12,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const test_1 = require("@playwright/test");
 const BasePage_1 = __importDefault(require("./BasePage"));
 const environment_1 = require("../config/environment");
 class TableFilterPage extends BasePage_1.default {
@@ -26,9 +25,7 @@ class TableFilterPage extends BasePage_1.default {
     }
     open() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.navigateTo(this.url);
-            yield this.page.waitForLoadState('networkidle');
-            yield (0, test_1.expect)(this.heading).toBeVisible();
+            yield this.openPage(this.url, this.heading);
         });
     }
 }
