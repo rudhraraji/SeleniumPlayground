@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from '@playwright/test';
+import { expect, Locator, Page, test } from '@playwright/test';
 
 export default class BasePage {
   protected readonly page: Page;
@@ -8,7 +8,10 @@ export default class BasePage {
   }
 
   async navigateTo(url: string): Promise<void> {
+  //  console.log(`[Page] ${this.constructor.name} opening ${url}`);
     await this.page.goto(url, { waitUntil: 'domcontentloaded' });
+    const heading = await this.page.locator('h1').evaluateAll(headings => headings[0]?.textContent?.trim());
+    console.log(`${heading || this.constructor.name} | ${test.info().title}`);
   }
 
   async openPage(url: string, readyLocator: Locator): Promise<void> {

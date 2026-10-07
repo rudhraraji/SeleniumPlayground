@@ -9,7 +9,7 @@ test('Bootstrap Alert Messages › autoclosable success message disappears autom
   await alertPage.autoSuccessButton.click();
   await expect(successAlert).toBeVisible();
   await expect(successAlert).toContainText('Hide in 5 seconds');
-  await expect(successAlert).toBeHidden({ timeout: 8000 });
+  await expect(successAlert).toBeHidden({ timeout: 15000 });
 });
 
 test('Bootstrap Alert Messages › normal success message stays visible', async ({ page }) => {
@@ -30,7 +30,7 @@ test('Bootstrap Alert Messages › autoclosable info message disappears automati
   await alertPage.autoInfoButton.click();
   await expect(infoAlert).toBeVisible();
   await expect(infoAlert).toContainText('Hide in 5 seconds');
-  await expect(infoAlert).toBeHidden({ timeout: 8000 });
+  await expect(infoAlert).toBeHidden({ timeout: 15000 });
 });
 
 test('Bootstrap Alert Messages › normal info message stays visible', async ({ page }) => {

@@ -8,8 +8,9 @@ test('Window Popup Modal Demo › opens a configured URL in a popup', async ({ p
 
   await expect(popupPage.singleWindowLinks).toHaveCount(3);
   await expect(popupPage.multipleWindowLinks).toHaveCount(2);
-  await popupPage.customUrlInput.pressSequentially(appUrl(''));
+  await popupPage.customUrlInput.fill(appUrl(''));
   await expect(popupPage.openUrlLink).not.toHaveClass(/pointer-events-none/);
+  await expect(popupPage.openUrlLink).toHaveAttribute('href', appUrl(''));
 
   const popupPromise = page.waitForEvent('popup');
   await popupPage.openUrlLink.click();

@@ -9,8 +9,8 @@ test('Bootstrap Date Picker Demo › selects and clears a single date', async ({
   await expect(datePickerPage.singleDateInput).toHaveAttribute('readonly', '');
   await datePickerPage.singleDateInput.click();
   await expect(datePickerPage.calendar).toBeVisible();
-  await expect(datePickerPage.todayDate).toBeVisible();
-  await datePickerPage.todayDate.click();
+  await expect(datePickerPage.selectableDate).toBeVisible();
+  await datePickerPage.selectableDate.click();
   await expect(datePickerPage.singleDateInput).toHaveValue(/^\d{2}\/\d{2}\/\d{4}$/);
 
   await datePickerPage.singleDateInput.click();

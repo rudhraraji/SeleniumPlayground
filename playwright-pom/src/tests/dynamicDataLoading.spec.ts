@@ -2,6 +2,9 @@ import { expect, test } from '../fixtures/test';
 import DynamicDataLoadingPage from '../pages/DynamicDataLoadingPage';
 
 test.describe('Dynamic Data Loading Demo', () => {
+  // The demo's Random User API currently serves a certificate with an invalid date.
+  test.use({ ignoreHTTPSErrors: true });
+
   let dynamicDataPage: DynamicDataLoadingPage;
 
   test.beforeEach(async ({ page }) => {

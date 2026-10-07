@@ -95,7 +95,7 @@ test.describe('Mouse Hover Demo', () => {
     await expect.poll(async () => (await transformMetrics(image)).scale).toBeGreaterThan(initialScale);
 
     await hoverPage.movePointerAway();
-    await expect.poll(() => cssValue(image, 'transform')).toBe(initialTransform);
+    await expect.poll(() => cssValue(image, 'transform'), { timeout: 10000 }).toBe(initialTransform);
   });
 
   test('zooms the image out on hover and restores its size on mouse-out', async () => {

@@ -24,7 +24,7 @@ class BootstrapDatePickerDemoPage extends BasePage_1.default {
         this.startDateInput = page.getByPlaceholder('Start date');
         this.endDateInput = page.getByPlaceholder('End date');
         this.calendar = page.locator('.datepicker');
-        this.todayDate = this.calendar.locator('.datepicker-days td.today');
+        this.selectableDate = this.calendar.locator('.datepicker-days td.day:not(.disabled):not(.old):not(.new)').first();
         this.clearDateButton = this.calendar.locator('.datepicker-days tfoot .clear');
     }
     open() {
