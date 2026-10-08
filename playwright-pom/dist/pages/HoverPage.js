@@ -31,8 +31,11 @@ class HoverPage extends BasePage_1.default {
     }
     movePointerAway() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.page.evaluate(() => window.scrollTo(0, 0));
             yield this.page.mouse.move(0, 0);
+            yield this.page.evaluate(() => {
+                document.documentElement.scrollTop = 0;
+                document.body.scrollTop = 0;
+            });
         });
     }
     buttonTargets(sectionIndex) {
