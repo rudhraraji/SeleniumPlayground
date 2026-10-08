@@ -27,6 +27,16 @@ npx playwright test
 Neither command requires Copilot CLI. The repository-root Playwright config
 discovers specs in `playwright-pom/src/tests` and writes an HTML report.
 
+## Continuous integration
+
+GitHub Actions runs the TypeScript build and Playwright suite on every push and
+pull request, and can also be started manually from the Actions tab. The job
+uses Node.js 20 and headless Chromium. It tests the live TestMu AI demos, so the
+workflow requires network access to `www.testmuai.com`.
+
+The Playwright HTML report and test results are uploaded as a workflow artifact
+for 14 days, including when tests fail.
+
 ## Project structure
 
 ```text
