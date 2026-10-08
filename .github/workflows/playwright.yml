@@ -51,3 +51,19 @@ jobs:
             test-results/
           if-no-files-found: ignore
           retention-days: 14
+
+      - name: Show workflow run ID
+        if: always()
+        env:
+          RUN_ID: ${{ github.run_id }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          echo "Workflow run ID: ${RUN_ID}"
+          echo "Run details: ${RUN_URL}"
+          {
+            echo "## Playwright CI run"
+            echo "- **Run ID:** ${RUN_ID}"
+            echo "- **Status:** ${JOB_STATUS}"
+            echo "- **Run details:** [Open this workflow run](${RUN_URL})"
+          } >> "$GITHUB_STEP_SUMMARY"

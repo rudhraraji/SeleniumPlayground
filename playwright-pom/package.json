@@ -7,10 +7,11 @@
     "test": "playwright test",
     "test:report": "playwright test --reporter=html",
     "show:report": "playwright show-report",
-    "test:allure": "playwright test --reporter=html,line,allure-playwright",
+    "test:allure": "npm run allure:clean && playwright test --reporter=html,line,allure-playwright",
     "test:jira": "node scripts/jira-test.mjs",
     "jira:prompt": "node scripts/jira-prompt.mjs",
     "jira:credential:save": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/jira-credential.ps1 save",
+    "allure:clean": "node scripts/clean-allure-results.mjs",
     "allure:generate": "allure generate ./allure-results --output allure-report",
     "allure:open": "allure open allure-report",
     "build": "tsc"

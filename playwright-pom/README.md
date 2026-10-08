@@ -188,7 +188,8 @@ from the repository root with `npm run <script> --workspace playwright-pom`.
 | --- | --- |
 | `npm run test:report` | Run tests with the HTML reporter |
 | `npm run show:report` | Open the latest HTML report |
-| `npm run test:allure` | Run tests with HTML, line, and Allure reporters |
+| `npm run test:allure` | Clear previous Allure files and run tests with HTML, line, and Allure reporters |
+| `npm run allure:clean` | Clear Allure results and report |
 | `npm run allure:generate` | Generate an Allure report from `allure-results` |
 | `npm run allure:open` | Open the generated Allure report |
 | `npm run build` | Type-check and compile the TypeScript source |
