@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const test_1 = require("@playwright/test");
 const BasePage_1 = __importDefault(require("./BasePage"));
 const environment_1 = require("../config/environment");
 class StatusCodePage extends BasePage_1.default {
@@ -25,7 +26,16 @@ class StatusCodePage extends BasePage_1.default {
     open() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.openPage(this.url, this.heading);
+            yield (0, test_1.expect)(this.statusCodes).toHaveCount(4);
+            yield (0, test_1.expect)(this.statusDescriptions).toHaveCount(4);
         });
+    }
+    getStatusDescription(statusCode) {
+        const statusIndex = { '200': 0, '301': 1, '404': 2, '500': 3 }[statusCode];
+        if (statusIndex === undefined) {
+            throw new Error(`Unsupported status code: ${statusCode}`);
+        }
+        return this.statusDescriptions.nth(statusIndex);
     }
 }
 exports.default = StatusCodePage;

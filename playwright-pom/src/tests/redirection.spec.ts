@@ -1,11 +1,22 @@
 import { expect, test } from '../fixtures/test';
 import RedirectionPage from '../pages/RedirectionPage';
 
-test('Redirection Demo › follows the link to the playground', async ({ page }) => {
-  const redirectionPage = new RedirectionPage(page);
-  await redirectionPage.open();
+test.describe('Redirection Demo', () => {
+  let redirectionPage: RedirectionPage;
 
-  await expect(redirectionPage.redirectLink).toHaveAttribute('href', redirectionPage.destinationUrl);
-  await redirectionPage.redirectLink.click();
-  await expect(page).toHaveURL(redirectionPage.destinationUrl);
+  test.beforeEach(async ({ page }) => {
+    redirectionPage = new RedirectionPage(page);
+    await redirectionPage.open();
+  });
+
+  test('points to the playground destination', async () => {
+    await expect(redirectionPage.redirectLink).toHaveAttribute(
+      'href',
+      redirectionPage.destinationUrl,
+    );
+  });
+
+  test('follows the link to the playground', async () => {
+    await redirectionPage.followRedirect();
+  });
 });

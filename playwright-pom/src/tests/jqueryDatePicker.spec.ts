@@ -7,6 +7,9 @@ test('JQuery Date Picker Demo › accepts a date range selected from the calenda
 
   await expect(datePickerPage.fromDateInput).toBeVisible();
   await expect(datePickerPage.toDateInput).toBeVisible();
+  await expect(datePickerPage.fromDateInput).toBeEditable();
+  await expect(datePickerPage.toDateInput).toBeEditable();
+
   await datePickerPage.selectCalendarDate(datePickerPage.fromDateInput, '10/15/2026');
   await datePickerPage.selectCalendarDate(datePickerPage.toDateInput, '10/20/2026');
 

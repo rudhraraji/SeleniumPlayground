@@ -7,10 +7,8 @@ export default class JqueryDownloadProgressBarPage extends BasePage {
   readonly heading: Locator;
   readonly startDownloadButton: Locator;
   readonly progressDialog: Locator;
-  readonly dialogTitle: Locator;
   readonly downloadStatus: Locator;
   readonly progressBar: Locator;
-  readonly cancelDownloadButton: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -18,24 +16,20 @@ export default class JqueryDownloadProgressBarPage extends BasePage {
       name: /Jquery Download Progress-Bar Demo/i,
     });
     this.startDownloadButton = page.locator('#downloadButton');
-    this.progressDialog = page.getByRole('dialog');
-    this.dialogTitle = this.progressDialog.locator('.ui-dialog-title');
+    this.progressDialog = page.locator('#dialog');
     this.downloadStatus = this.progressDialog.locator('.progress-label');
-    this.progressBar = this.progressDialog.getByRole('progressbar');
-    this.cancelDownloadButton = this.progressDialog.getByRole('button', { name: 'Cancel Download', exact: true });
+    this.progressBar = this.progressDialog.locator('#progressbar');
   }
 
   async open(): Promise<void> {
     await this.openPage(this.url, this.heading);
+    await expect(this.startDownloadButton).toBeVisible();
+    await expect(this.startDownloadButton).toBeEnabled();
   }
 
   async startDownload(): Promise<void> {
     await this.startDownloadButton.click();
-    await expect(this.progressDialog).toBeVisible();
-  }
-
-  async cancelDownload(): Promise<void> {
-    await this.cancelDownloadButton.click();
-    await expect(this.progressDialog).toBeHidden();
+    await expect(this.progressDialog).toBeVisible({ timeout: 15000 });
+    await expect(this.downloadStatus).toContainText('Starting download...', { timeout: 15000 });
   }
 }

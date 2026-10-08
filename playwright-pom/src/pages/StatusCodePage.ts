@@ -17,5 +17,15 @@ export default class StatusCodePage extends BasePage {
 
   async open(): Promise<void> {
     await this.openPage(this.url, this.heading);
+    await expect(this.statusCodes).toHaveCount(4);
+    await expect(this.statusDescriptions).toHaveCount(4);
+  }
+
+  getStatusDescription(statusCode: string): Locator {
+    const statusIndex = { '200': 0, '301': 1, '404': 2, '500': 3 }[statusCode];
+    if (statusIndex === undefined) {
+      throw new Error(`Unsupported status code: ${statusCode}`);
+    }
+    return this.statusDescriptions.nth(statusIndex);
   }
 }

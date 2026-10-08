@@ -20,6 +20,7 @@ class InputFormDemoPage extends BasePage_1.default {
         super(page);
         this.url = (0, environment_1.appUrl)('selenium-playground/input-form-demo/');
         this.heading = page.getByRole('heading', { name: 'Form Demo', exact: true });
+        this.form = page.locator('#seleniumform');
         this.nameInput = page.locator('#name');
         this.emailInput = page.locator('#inputEmail4');
         this.passwordInput = page.locator('#inputPassword4');
@@ -43,6 +44,7 @@ class InputFormDemoPage extends BasePage_1.default {
     }
     fillForm(details) {
         return __awaiter(this, void 0, void 0, function* () {
+            yield (0, test_1.expect)(this.form).toBeVisible();
             yield this.nameInput.fill(details.name);
             yield this.emailInput.fill(details.email);
             yield this.passwordInput.fill(details.password);
@@ -60,6 +62,7 @@ class InputFormDemoPage extends BasePage_1.default {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.submitButton.click();
             yield (0, test_1.expect)(this.successMessage).toBeVisible();
+            yield (0, test_1.expect)(this.successMessage).toContainText('Thanks for contacting us');
         });
     }
 }

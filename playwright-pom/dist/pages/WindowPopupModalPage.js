@@ -36,6 +36,16 @@ class WindowPopupModalPage extends BasePage_1.default {
                 yield this.page.reload({ waitUntil: 'networkidle' });
             }
             yield (0, test_1.expect)(this.heading).toBeVisible();
+            yield (0, test_1.expect)(this.customUrlInput).toBeVisible();
+            yield (0, test_1.expect)(this.singleWindowLinks).toHaveCount(3);
+            yield (0, test_1.expect)(this.multipleWindowLinks).toHaveCount(2);
+        });
+    }
+    configureCustomUrl(url) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.customUrlInput.fill(url);
+            yield (0, test_1.expect)(this.openUrlLink).toHaveAttribute('href', url);
+            yield (0, test_1.expect)(this.openUrlLink).toBeEnabled();
         });
     }
 }

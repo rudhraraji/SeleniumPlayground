@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const test_1 = require("@playwright/test");
 const BasePage_1 = __importDefault(require("./BasePage"));
 const environment_1 = require("../config/environment");
 class SelectDropdownDemoPage extends BasePage_1.default {
@@ -29,6 +30,33 @@ class SelectDropdownDemoPage extends BasePage_1.default {
     open() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.openPage(this.url, this.heading);
+            yield (0, test_1.expect)(this.daySelect).toBeVisible();
+            yield (0, test_1.expect)(this.daySelect).toBeEnabled();
+            yield (0, test_1.expect)(this.multiSelect).toBeVisible();
+            yield (0, test_1.expect)(this.multiSelect).toBeEnabled();
+            yield (0, test_1.expect)(this.firstSelectedButton).toBeVisible();
+            yield (0, test_1.expect)(this.lastSelectedButton).toBeVisible();
+        });
+    }
+    selectDay(day) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.daySelect.selectOption({ label: day });
+        });
+    }
+    selectStates(states) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const options = states.map(label => ({ label }));
+            yield this.multiSelect.selectOption(options);
+        });
+    }
+    showFirstSelectedState() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.firstSelectedButton.click();
+        });
+    }
+    showAllSelectedStates() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.lastSelectedButton.click();
         });
     }
 }

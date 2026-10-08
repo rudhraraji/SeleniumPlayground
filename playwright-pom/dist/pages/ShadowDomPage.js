@@ -21,15 +21,29 @@ class ShadowDomPage extends BasePage_1.default {
         this.url = (0, environment_1.appUrl)('selenium-playground/shadow-dom/');
         this.heading = page.getByRole('heading', { name: 'Shadow DOM', exact: true });
         this.shadowHost = page.locator('#shadow_host');
-        this.nameInput = page.locator('input[placeholder="Name"]').last();
-        this.emailInput = page.locator('input[placeholder="Email"]').last();
-        this.slider = page.getByRole('slider').first();
+        this.nameInput = this.shadowHost.locator('input[placeholder="Name"]');
+        this.emailInput = this.shadowHost.locator('input[placeholder="Email"]');
+        this.slider = this.shadowHost.locator('input[type="range"]');
     }
     open() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.navigateTo(this.url);
+            yield this.openPage(this.url, this.heading);
             yield (0, test_1.expect)(this.heading).toBeVisible();
             yield (0, test_1.expect)(this.shadowHost).toBeVisible();
+            yield (0, test_1.expect)(this.nameInput).toBeEditable();
+            yield (0, test_1.expect)(this.emailInput).toBeEditable();
+            yield (0, test_1.expect)(this.slider).toBeVisible();
+        });
+    }
+    fillContactDetails(name, email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.nameInput.fill(name);
+            yield this.emailInput.fill(email);
+        });
+    }
+    setSliderValue(value) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.slider.fill(value);
         });
     }
 }

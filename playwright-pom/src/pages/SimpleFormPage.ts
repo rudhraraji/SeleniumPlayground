@@ -27,5 +27,22 @@ export default class SimpleFormPage extends BasePage {
 
   async open(): Promise<void> {
     await this.openPage(this.url, this.heading);
+    await expect(this.messageInput).toBeVisible();
+    await expect(this.messageInput).toBeEditable();
+    await expect(this.showMessageButton).toBeEnabled();
+    await expect(this.firstNumberInput).toBeEditable();
+    await expect(this.secondNumberInput).toBeEditable();
+    await expect(this.sumButton).toBeEnabled();
+  }
+
+  async echoMessage(message: string): Promise<void> {
+    await this.messageInput.fill(message);
+    await this.showMessageButton.click();
+  }
+
+  async calculateSum(firstNumber: number, secondNumber: number): Promise<void> {
+    await this.firstNumberInput.fill(String(firstNumber));
+    await this.secondNumberInput.fill(String(secondNumber));
+    await this.sumButton.click();
   }
 }

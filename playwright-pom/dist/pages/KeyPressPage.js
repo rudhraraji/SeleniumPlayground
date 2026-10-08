@@ -28,6 +28,13 @@ class KeyPressPage extends BasePage_1.default {
             yield this.navigateTo(this.url);
             yield this.waitForPageLoad();
             yield (0, test_1.expect)(this.heading).toBeVisible();
+            yield (0, test_1.expect)(this.keyInput).toBeVisible();
+            yield (0, test_1.expect)(this.keyInput).toBeEditable();
+        });
+    }
+    pressKey(key) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.keyInput.press(key);
         });
     }
 }

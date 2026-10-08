@@ -37,6 +37,14 @@ export default class JqueryDatePickerPage extends BasePage {
     await expect(this.datePickerWidget).toBeVisible();
   }
 
+  private async getCalendarMonthYear(): Promise<{ monthIndex: number; year: number }> {
+    const monthIndex = Number(await this.monthSelector.inputValue());
+    const yearText = (await this.yearLabel.textContent())?.trim() ?? '0';
+    const year = Number(yearText) || 0;
+
+    return { monthIndex, year };
+  }
+
   async selectCalendarDate(input: Locator, dateValue: string): Promise<void> {
     const [monthPart, dayPart, yearPart] = dateValue.split('/');
     const targetMonthIndex = Number(monthPart) - 1;
@@ -45,27 +53,24 @@ export default class JqueryDatePickerPage extends BasePage {
 
     await this.openCalendarFor(input);
 
-    let currentMonth = Number(await this.monthSelector.inputValue());
-    let currentYear = Number((await this.yearLabel.textContent())?.trim() ?? '0');
+    let { monthIndex: currentMonth, year: currentYear } = await this.getCalendarMonthYear();
 
     while (currentYear < targetYear || (currentYear === targetYear && currentMonth < targetMonthIndex)) {
       await this.nextMonthButton.click();
-      currentMonth = Number(await this.monthSelector.inputValue());
-      currentYear = Number((await this.yearLabel.textContent())?.trim() ?? '0');
+      ({ monthIndex: currentMonth, year: currentYear } = await this.getCalendarMonthYear());
     }
 
     while (currentYear > targetYear || (currentYear === targetYear && currentMonth > targetMonthIndex)) {
       await this.previousMonthButton.click();
-      currentMonth = Number(await this.monthSelector.inputValue());
-      currentYear = Number((await this.yearLabel.textContent())?.trim() ?? '0');
+      ({ monthIndex: currentMonth, year: currentYear } = await this.getCalendarMonthYear());
     }
 
     const dateCell = this.datePickerWidget
-      .locator(`td[data-month="${targetMonthIndex}"][data-year="${targetYear}"] a.ui-state-default`)
+      .locator('table.ui-datepicker-calendar td[data-month="' + targetMonthIndex + '"][data-year="' + targetYear + '"] a.ui-state-default')
       .filter({ hasText: String(targetDay) });
 
-    await expect(dateCell).toBeVisible();
-    await dateCell.click();
+    await expect(dateCell.first()).toBeVisible();
+    await dateCell.first().click();
     await expect(input).toHaveValue(dateValue);
   }
 }

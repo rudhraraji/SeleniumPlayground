@@ -16,7 +16,10 @@ class BasePage {
     }
     navigateTo(url) {
         return __awaiter(this, void 0, void 0, function* () {
+            //  console.log(`[Page] ${this.constructor.name} opening ${url}`);
             yield this.page.goto(url, { waitUntil: 'domcontentloaded' });
+            const heading = yield this.page.locator('h1').evaluateAll(headings => { var _a, _b; return (_b = (_a = headings[0]) === null || _a === void 0 ? void 0 : _a.textContent) === null || _b === void 0 ? void 0 : _b.trim(); });
+            console.log(`${heading || this.constructor.name} | ${test_1.test.info().title}`);
         });
     }
     openPage(url, readyLocator) {

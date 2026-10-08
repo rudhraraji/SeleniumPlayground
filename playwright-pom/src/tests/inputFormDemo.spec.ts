@@ -1,4 +1,4 @@
-import { test } from '../fixtures/test';
+import { expect, test } from '../fixtures/test';
 import InputFormDemoPage, { ContactDetails } from '../pages/InputFormDemoPage';
 
 test('Input Form Demo › submits valid contact details', async ({ page }) => {
@@ -18,6 +18,8 @@ test('Input Form Demo › submits valid contact details', async ({ page }) => {
   };
 
   await formPage.open();
+  await expect(formPage.heading).toBeVisible();
+
   await formPage.fillForm(validDetails);
   await formPage.submitForm();
 });

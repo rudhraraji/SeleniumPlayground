@@ -6,13 +6,14 @@ test.describe('Bootstrap Progress Bar Dialog Demo', () => {
     const dialogPage = new BootstrapProgressBarDialogPage(page);
     await dialogPage.open();
 
-    await expect(dialogPage.dialogButtons).toHaveCount(3);
-    await expect(dialogPage.twoSecondDialogButton).toBeVisible();
-    await expect(dialogPage.dialogButtons.nth(1)).toHaveText(
-      'Show dialog (Autoclose after 3 seconds)'
+    await expect(dialogPage.twoSecondDialogButton).toHaveText(
+      'Show dialog (Autoclose after 2 seconds)',
     );
-    await expect(dialogPage.dialogButtons.nth(2)).toHaveText(
-      'Show dialog (Autoclose after 5 seconds)'
+    await expect(dialogPage.threeSecondDialogButton).toHaveText(
+      'Show dialog (Autoclose after 3 seconds)',
+    );
+    await expect(dialogPage.fiveSecondDialogButton).toHaveText(
+      'Show dialog (Autoclose after 5 seconds)',
     );
   });
 });

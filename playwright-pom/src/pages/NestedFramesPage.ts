@@ -9,6 +9,7 @@ export default class NestedFramesPage extends BasePage {
   readonly leftNestedFrame: FrameLocator;
   readonly middleNestedFrame: FrameLocator;
   readonly rightNestedFrame: FrameLocator;
+  readonly bottomFrameElement: Locator;
   readonly topFrameContent: Locator;
   readonly leftFrameContent: Locator;
   readonly middleFrameContent: Locator;
@@ -18,6 +19,7 @@ export default class NestedFramesPage extends BasePage {
     super(page);
     this.topFrame = page.frameLocator('frame[name="frame-top"]');
     this.bottomFrame = page.frameLocator('frame[name="frame-bottom"]');
+    this.bottomFrameElement = page.locator('frame[name="frame-bottom"]');
     this.leftNestedFrame = this.bottomFrame.frameLocator('frame[name="frame-left"]');
     this.middleNestedFrame = this.bottomFrame.frameLocator('frame[name="frame-middle"]');
     this.rightNestedFrame = this.bottomFrame.frameLocator('frame[name="frame-right"]');
@@ -29,6 +31,11 @@ export default class NestedFramesPage extends BasePage {
 
   async open(): Promise<void> {
     await this.navigateTo(this.url);
+    await this.page.waitForLoadState('networkidle');
     await expect(this.topFrameContent).toContainText('Top');
+    await expect(this.bottomFrameElement).toBeVisible();
+    await expect(this.leftFrameContent).toContainText('Left');
+    await expect(this.middleFrameContent).toContainText('Middle');
+    await expect(this.rightFrameContent).toContainText('Right');
   }
 }

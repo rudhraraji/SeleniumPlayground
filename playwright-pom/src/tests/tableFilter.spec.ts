@@ -1,15 +1,29 @@
 import { expect, test } from '../fixtures/test';
 import TableFilterPage from '../pages/TableFilterPage';
 
-test('Table Filter Demo › filters records and restores all rows', async ({ page }) => {
-  const tableFilterPage = new TableFilterPage(page);
-  await tableFilterPage.open();
+test.describe('Table Filter Demo', () => {
+  let tableFilterPage: TableFilterPage;
 
-  await expect(tableFilterPage.tableRows).toHaveCount(5);
-  await page.getByRole('button', { name: 'Selenium Testing', exact: true }).click();
-  await expect(tableFilterPage.visibleTableRows).toHaveCount(2);
-  await expect(tableFilterPage.visibleTableRows).toContainText(['Selenium Testing', 'Selenium Testing']);
+  test.beforeEach(async ({ page }) => {
+    tableFilterPage = new TableFilterPage(page);
+    await tableFilterPage.open();
+  });
 
-  await page.getByRole('button', { name: 'All', exact: true }).click();
-  await expect(tableFilterPage.visibleTableRows).toHaveCount(5);
+  test('shows the full table and its filter controls', async () => {
+    await expect(tableFilterPage.visibleTableRows).toHaveCount(5);
+    await expect(tableFilterPage.filterButtons).toHaveCount(4);
+    await expect(tableFilterPage.allFilterButton).toBeVisible();
+  });
+
+  test('filters records by category and restores all rows', async () => {
+    await tableFilterPage.filterBy('Selenium Testing');
+    await expect(tableFilterPage.visibleTableRows).toHaveCount(2);
+    await expect(tableFilterPage.visibleTableRows).toContainText([
+      'Selenium Testing',
+      'Selenium Testing',
+    ]);
+
+    await tableFilterPage.showAllRecords();
+    await expect(tableFilterPage.visibleTableRows).toHaveCount(5);
+  });
 });

@@ -19,5 +19,11 @@ export default class KeyPressPage extends BasePage {
     await this.navigateTo(this.url);
     await this.waitForPageLoad();
     await expect(this.heading).toBeVisible();
+    await expect(this.keyInput).toBeVisible();
+    await expect(this.keyInput).toBeEditable();
+  }
+
+  async pressKey(key: string): Promise<void> {
+    await this.keyInput.press(key);
   }
 }

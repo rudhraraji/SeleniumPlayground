@@ -23,27 +23,22 @@ class JqueryDownloadProgressBarPage extends BasePage_1.default {
             name: /Jquery Download Progress-Bar Demo/i,
         });
         this.startDownloadButton = page.locator('#downloadButton');
-        this.progressDialog = page.getByRole('dialog');
-        this.dialogTitle = this.progressDialog.locator('.ui-dialog-title');
+        this.progressDialog = page.locator('#dialog');
         this.downloadStatus = this.progressDialog.locator('.progress-label');
-        this.progressBar = this.progressDialog.getByRole('progressbar');
-        this.cancelDownloadButton = this.progressDialog.getByRole('button', { name: 'Cancel Download', exact: true });
+        this.progressBar = this.progressDialog.locator('#progressbar');
     }
     open() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.openPage(this.url, this.heading);
+            yield (0, test_1.expect)(this.startDownloadButton).toBeVisible();
+            yield (0, test_1.expect)(this.startDownloadButton).toBeEnabled();
         });
     }
     startDownload() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.startDownloadButton.click();
-            yield (0, test_1.expect)(this.progressDialog).toBeVisible();
-        });
-    }
-    cancelDownload() {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.cancelDownloadButton.click();
-            yield (0, test_1.expect)(this.progressDialog).toBeHidden();
+            yield (0, test_1.expect)(this.progressDialog).toBeVisible({ timeout: 15000 });
+            yield (0, test_1.expect)(this.downloadStatus).toContainText('Starting download...', { timeout: 15000 });
         });
     }
 }

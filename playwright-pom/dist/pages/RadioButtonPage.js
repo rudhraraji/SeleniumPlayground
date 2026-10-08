@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const test_1 = require("@playwright/test");
 const BasePage_1 = __importDefault(require("./BasePage"));
 const environment_1 = require("../config/environment");
 class RadioButtonPage extends BasePage_1.default {
@@ -30,6 +31,23 @@ class RadioButtonPage extends BasePage_1.default {
     open() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.openPage(this.url, this.heading);
+            yield (0, test_1.expect)(this.basicRadioButtons).toHaveCount(2);
+            yield (0, test_1.expect)(this.basicValueButton).toBeVisible();
+            yield (0, test_1.expect)(this.genderRadioButtons).toHaveCount(3);
+            yield (0, test_1.expect)(this.ageRadioButtons).toHaveCount(3);
+            yield (0, test_1.expect)(this.getValuesButton).toBeVisible();
+        });
+    }
+    checkGenderAndAge(gender, ageGroup) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.page.locator(`input[name="gender"][value="${gender}"]`).check();
+            yield this.page.locator(`input[name="ageGroup"][value="${ageGroup}"]`).check();
+            yield this.getValuesButton.click();
+        });
+    }
+    expectResults(gender, ageGroup) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield (0, test_1.expect)(this.results).toContainText([`Gender : ${gender}`, `Age : ${ageGroup}`]);
         });
     }
 }

@@ -19,6 +19,7 @@ export interface ContactDetails {
 export default class InputFormDemoPage extends BasePage {
   readonly url = appUrl('selenium-playground/input-form-demo/');
   readonly heading: Locator;
+  readonly form: Locator;
   readonly nameInput: Locator;
   readonly emailInput: Locator;
   readonly passwordInput: Locator;
@@ -36,6 +37,7 @@ export default class InputFormDemoPage extends BasePage {
   constructor(page: Page) {
     super(page);
     this.heading = page.getByRole('heading', { name: 'Form Demo', exact: true });
+    this.form = page.locator('#seleniumform');
     this.nameInput = page.locator('#name');
     this.emailInput = page.locator('#inputEmail4');
     this.passwordInput = page.locator('#inputPassword4');
@@ -58,6 +60,7 @@ export default class InputFormDemoPage extends BasePage {
   }
 
   async fillForm(details: ContactDetails): Promise<void> {
+    await expect(this.form).toBeVisible();
     await this.nameInput.fill(details.name);
     await this.emailInput.fill(details.email);
     await this.passwordInput.fill(details.password);
@@ -74,5 +77,6 @@ export default class InputFormDemoPage extends BasePage {
   async submitForm(): Promise<void> {
     await this.submitButton.click();
     await expect(this.successMessage).toBeVisible();
+    await expect(this.successMessage).toContainText('Thanks for contacting us');
   }
 }

@@ -42,31 +42,36 @@ class JqueryDatePickerPage extends BasePage_1.default {
             yield (0, test_1.expect)(this.datePickerWidget).toBeVisible();
         });
     }
+    getCalendarMonthYear() {
+        var _a, _b;
+        return __awaiter(this, void 0, void 0, function* () {
+            const monthIndex = Number(yield this.monthSelector.inputValue());
+            const yearText = (_b = (_a = (yield this.yearLabel.textContent())) === null || _a === void 0 ? void 0 : _a.trim()) !== null && _b !== void 0 ? _b : '0';
+            const year = Number(yearText) || 0;
+            return { monthIndex, year };
+        });
+    }
     selectCalendarDate(input, dateValue) {
-        var _a, _b, _c, _d, _e, _f;
         return __awaiter(this, void 0, void 0, function* () {
             const [monthPart, dayPart, yearPart] = dateValue.split('/');
             const targetMonthIndex = Number(monthPart) - 1;
             const targetDay = Number(dayPart);
             const targetYear = Number(yearPart);
             yield this.openCalendarFor(input);
-            let currentMonth = Number(yield this.monthSelector.inputValue());
-            let currentYear = Number((_b = (_a = (yield this.yearLabel.textContent())) === null || _a === void 0 ? void 0 : _a.trim()) !== null && _b !== void 0 ? _b : '0');
+            let { monthIndex: currentMonth, year: currentYear } = yield this.getCalendarMonthYear();
             while (currentYear < targetYear || (currentYear === targetYear && currentMonth < targetMonthIndex)) {
                 yield this.nextMonthButton.click();
-                currentMonth = Number(yield this.monthSelector.inputValue());
-                currentYear = Number((_d = (_c = (yield this.yearLabel.textContent())) === null || _c === void 0 ? void 0 : _c.trim()) !== null && _d !== void 0 ? _d : '0');
+                ({ monthIndex: currentMonth, year: currentYear } = yield this.getCalendarMonthYear());
             }
             while (currentYear > targetYear || (currentYear === targetYear && currentMonth > targetMonthIndex)) {
                 yield this.previousMonthButton.click();
-                currentMonth = Number(yield this.monthSelector.inputValue());
-                currentYear = Number((_f = (_e = (yield this.yearLabel.textContent())) === null || _e === void 0 ? void 0 : _e.trim()) !== null && _f !== void 0 ? _f : '0');
+                ({ monthIndex: currentMonth, year: currentYear } = yield this.getCalendarMonthYear());
             }
             const dateCell = this.datePickerWidget
-                .locator(`td[data-month="${targetMonthIndex}"][data-year="${targetYear}"] a.ui-state-default`)
+                .locator('table.ui-datepicker-calendar td[data-month="' + targetMonthIndex + '"][data-year="' + targetYear + '"] a.ui-state-default')
                 .filter({ hasText: String(targetDay) });
-            yield (0, test_1.expect)(dateCell).toBeVisible();
-            yield dateCell.click();
+            yield (0, test_1.expect)(dateCell.first()).toBeVisible();
+            yield dateCell.first().click();
             yield (0, test_1.expect)(input).toHaveValue(dateValue);
         });
     }

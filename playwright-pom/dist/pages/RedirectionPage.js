@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const test_1 = require("@playwright/test");
 const BasePage_1 = __importDefault(require("./BasePage"));
 const environment_1 = require("../config/environment");
 class RedirectionPage extends BasePage_1.default {
@@ -21,10 +22,23 @@ class RedirectionPage extends BasePage_1.default {
         this.destinationUrl = (0, environment_1.appUrl)('selenium-playground/');
         this.heading = page.getByRole('heading', { name: 'Redirection', exact: true });
         this.redirectLink = page.getByRole('link', { name: 'here', exact: true });
+        this.destinationHeading = page.getByRole('heading', {
+            name: 'Selenium Playground',
+            exact: true,
+        });
     }
     open() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.openPage(this.url, this.heading);
+            yield (0, test_1.expect)(this.redirectLink).toBeVisible();
+            yield (0, test_1.expect)(this.redirectLink).toHaveAttribute('href', this.destinationUrl);
+        });
+    }
+    followRedirect() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.redirectLink.click();
+            yield (0, test_1.expect)(this.page).toHaveURL(this.destinationUrl);
+            yield (0, test_1.expect)(this.destinationHeading).toBeVisible();
         });
     }
 }

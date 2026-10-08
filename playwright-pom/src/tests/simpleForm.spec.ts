@@ -1,16 +1,22 @@
 import { expect, test } from '../fixtures/test';
 import SimpleFormPage from '../pages/SimpleFormPage';
 
-test('Simple Form Demo › echoes a message and calculates a sum', async ({ page }) => {
-  const simpleFormPage = new SimpleFormPage(page);
-  await simpleFormPage.open();
+test.describe('Simple Form Demo', () => {
+  let simpleFormPage: SimpleFormPage;
 
-  await simpleFormPage.messageInput.fill('Playwright message');
-  await simpleFormPage.showMessageButton.click();
-  await expect(simpleFormPage.messageResult).toHaveText('Playwright message');
+  test.beforeEach(async ({ page }) => {
+    simpleFormPage = new SimpleFormPage(page);
+    await simpleFormPage.open();
+  });
 
-  await simpleFormPage.firstNumberInput.fill('10');
-  await simpleFormPage.secondNumberInput.fill('20');
-  await simpleFormPage.sumButton.click();
-  await expect(simpleFormPage.sumResult).toContainText('30');
+  test('echoes a submitted message', async () => {
+    const message = 'Playwright message';
+    await simpleFormPage.echoMessage(message);
+    await expect(simpleFormPage.messageResult).toHaveText(message);
+  });
+
+  test('calculates the sum of two numbers', async () => {
+    await simpleFormPage.calculateSum(10, 20);
+    await expect(simpleFormPage.sumResult).toHaveText('30');
+  });
 });

@@ -21,6 +21,7 @@ class NestedFramesPage extends BasePage_1.default {
         this.url = (0, environment_1.appUrl)('selenium-playground/nested-frames/');
         this.topFrame = page.frameLocator('frame[name="frame-top"]');
         this.bottomFrame = page.frameLocator('frame[name="frame-bottom"]');
+        this.bottomFrameElement = page.locator('frame[name="frame-bottom"]');
         this.leftNestedFrame = this.bottomFrame.frameLocator('frame[name="frame-left"]');
         this.middleNestedFrame = this.bottomFrame.frameLocator('frame[name="frame-middle"]');
         this.rightNestedFrame = this.bottomFrame.frameLocator('frame[name="frame-right"]');
@@ -32,7 +33,12 @@ class NestedFramesPage extends BasePage_1.default {
     open() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.navigateTo(this.url);
+            yield this.page.waitForLoadState('networkidle');
             yield (0, test_1.expect)(this.topFrameContent).toContainText('Top');
+            yield (0, test_1.expect)(this.bottomFrameElement).toBeVisible();
+            yield (0, test_1.expect)(this.leftFrameContent).toContainText('Left');
+            yield (0, test_1.expect)(this.middleFrameContent).toContainText('Middle');
+            yield (0, test_1.expect)(this.rightFrameContent).toContainText('Right');
         });
     }
 }

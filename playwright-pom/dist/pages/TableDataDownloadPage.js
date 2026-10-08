@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const test_1 = require("@playwright/test");
 const BasePage_1 = __importDefault(require("./BasePage"));
 const environment_1 = require("../config/environment");
 class TableDataDownloadPage extends BasePage_1.default {
@@ -28,6 +29,24 @@ class TableDataDownloadPage extends BasePage_1.default {
     open() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.openPage(this.url, this.heading);
+            yield (0, test_1.expect)(this.table).toBeVisible();
+            yield (0, test_1.expect)(this.tableHeaders).toHaveCount(6);
+            yield (0, test_1.expect)(this.tableRows.first()).toBeVisible();
+            yield (0, test_1.expect)(this.searchInput).toBeVisible();
+            yield (0, test_1.expect)(this.csvExportButton).toBeVisible();
+        });
+    }
+    searchRows(query) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.searchInput.fill(query);
+        });
+    }
+    exportCsv() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const downloadPromise = this.page.waitForEvent('download');
+            yield this.csvExportButton.click();
+            const download = yield downloadPromise;
+            return download.suggestedFilename();
         });
     }
 }

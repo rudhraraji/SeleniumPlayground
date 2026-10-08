@@ -30,5 +30,14 @@ export default class WindowPopupModalPage extends BasePage {
       await this.page.reload({ waitUntil: 'networkidle' });
     }
     await expect(this.heading).toBeVisible();
+    await expect(this.customUrlInput).toBeVisible();
+    await expect(this.singleWindowLinks).toHaveCount(3);
+    await expect(this.multipleWindowLinks).toHaveCount(2);
+  }
+
+  async configureCustomUrl(url: string): Promise<void> {
+    await this.customUrlInput.fill(url);
+    await expect(this.openUrlLink).toHaveAttribute('href', url);
+    await expect(this.openUrlLink).toBeEnabled();
   }
 }

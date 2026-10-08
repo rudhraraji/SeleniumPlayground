@@ -24,7 +24,12 @@ export default class JavascriptAlertsPage extends BasePage {
   }
 
   async open(): Promise<void> {
-    await this.openPage(this.url, this.heading);
+    await this.navigateTo(this.url);
+    await this.page.waitForLoadState('networkidle');
+    await expect(this.heading).toBeVisible();
+    await expect(this.alertButton).toBeVisible();
+    await expect(this.confirmButton).toBeVisible();
+    await expect(this.promptButton).toBeVisible();
   }
 
   async triggerAlert(): Promise<void> {

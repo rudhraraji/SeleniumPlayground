@@ -27,5 +27,20 @@ export default class RadioButtonPage extends BasePage {
 
   async open(): Promise<void> {
     await this.openPage(this.url, this.heading);
+    await expect(this.basicRadioButtons).toHaveCount(2);
+    await expect(this.basicValueButton).toBeVisible();
+    await expect(this.genderRadioButtons).toHaveCount(3);
+    await expect(this.ageRadioButtons).toHaveCount(3);
+    await expect(this.getValuesButton).toBeVisible();
+  }
+
+  async checkGenderAndAge(gender: string, ageGroup: string): Promise<void> {
+    await this.page.locator(`input[name="gender"][value="${gender}"]`).check();
+    await this.page.locator(`input[name="ageGroup"][value="${ageGroup}"]`).check();
+    await this.getValuesButton.click();
+  }
+
+  async expectResults(gender: string, ageGroup: string): Promise<void> {
+    await expect(this.results).toContainText([`Gender : ${gender}`, `Age : ${ageGroup}`]);
   }
 }

@@ -23,5 +23,21 @@ export default class TableDataDownloadPage extends BasePage {
 
   async open(): Promise<void> {
     await this.openPage(this.url, this.heading);
+    await expect(this.table).toBeVisible();
+    await expect(this.tableHeaders).toHaveCount(6);
+    await expect(this.tableRows.first()).toBeVisible();
+    await expect(this.searchInput).toBeVisible();
+    await expect(this.csvExportButton).toBeVisible();
+  }
+
+  async searchRows(query: string): Promise<void> {
+    await this.searchInput.fill(query);
+  }
+
+  async exportCsv(): Promise<string> {
+    const downloadPromise = this.page.waitForEvent('download');
+    await this.csvExportButton.click();
+    const download = await downloadPromise;
+    return download.suggestedFilename();
   }
 }

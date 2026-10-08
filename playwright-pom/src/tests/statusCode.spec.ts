@@ -1,12 +1,24 @@
 import { expect, test } from '../fixtures/test';
 import StatusCodePage from '../pages/StatusCodePage';
 
-test('Status Codes Demo › explains the standard response codes', async ({ page }) => {
-  const statusCodePage = new StatusCodePage(page);
-  await statusCodePage.open();
+test.describe('Status Codes Demo', () => {
+  let statusCodePage: StatusCodePage;
 
-  await expect(statusCodePage.statusCodes).toHaveText(['200', '301', '404', '500']);
-  await expect(statusCodePage.statusDescriptions).toHaveCount(4);
-  await expect(statusCodePage.statusDescriptions.nth(0)).toContainText('request has succeeded');
-  await expect(statusCodePage.statusDescriptions.nth(2)).toContainText('page is not available');
+  test.beforeEach(async ({ page }) => {
+    statusCodePage = new StatusCodePage(page);
+    await statusCodePage.open();
+  });
+
+  test('lists the standard response codes', async () => {
+    await expect(statusCodePage.statusCodes).toHaveText(['200', '301', '404', '500']);
+  });
+
+  test('describes successful and not-found responses', async () => {
+    await expect(statusCodePage.getStatusDescription('200')).toContainText(
+      'request has succeeded',
+    );
+    await expect(statusCodePage.getStatusDescription('404')).toContainText(
+      'page is not available',
+    );
+  });
 });
