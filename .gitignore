@@ -13,3 +13,4 @@ playwright-pom/node_modules/
 /playwright-pom/allure-report/
 node_modules
 /test-results/
+.env

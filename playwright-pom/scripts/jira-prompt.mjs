@@ -2,7 +2,6 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const DEFAULT_JIRA_BASE_URL = 'https://gr8testing.atlassian.net';
-const CREDENTIAL_SCRIPT = fileURLToPath(new URL('./jira-credential.ps1', import.meta.url));
 const REPOSITORY_ROOT = fileURLToPath(new URL('../../', import.meta.url));
 
 function getIssueKey(input, baseUrl) {
@@ -48,48 +47,6 @@ function extractDescription(node) {
 
 function formatList(values) {
   return Array.isArray(values) && values.length ? values.join(', ') : 'None';
-}
-
-function getStoredCredentials() {
-  if (process.platform !== 'win32') {
-    throw new Error('Set JIRA_EMAIL and JIRA_API_TOKEN environment variables to authenticate with Jira');
-  }
-
-  const result = spawnSync('powershell.exe', [
-    '-NoProfile',
-    '-NonInteractive',
-    '-ExecutionPolicy',
-    'Bypass',
-    '-File',
-    CREDENTIAL_SCRIPT,
-    'get',
-  ], { encoding: 'utf8', windowsHide: true });
-
-  if (result.error) {
-    throw new Error(`Unable to read Jira credentials from Windows Credential Manager: ${result.error.message}`);
-  }
-  if (result.status !== 0) {
-    throw new Error(
-      'Jira credentials are not saved in Windows Credential Manager. Run "npm run jira:credential:save" once to save them.',
-    );
-  }
-
-  const encodedToken = result.stdout.trim();
-  if (!/^[A-Za-z0-9+/]+=*$/.test(encodedToken)) {
-    throw new Error('Windows Credential Manager returned an invalid Jira API token');
-  }
-
-  let credentials;
-  try {
-    credentials = JSON.parse(Buffer.from(encodedToken, 'base64').toString('utf8'));
-  } catch {
-    throw new Error('Windows Credential Manager returned invalid Jira credentials');
-  }
-  if (typeof credentials.email !== 'string' || typeof credentials.apiToken !== 'string') {
-    throw new Error('Windows Credential Manager returned invalid Jira credentials');
-  }
-
-  return credentials;
 }
 
 function sendToCopilot(description) {
@@ -138,11 +95,8 @@ async function main() {
   const issueKey = getIssueKey(input, baseUrl);
   const email = process.env.JIRA_EMAIL;
   const apiToken = process.env.JIRA_API_TOKEN;
-  const storedCredentials = email && apiToken ? null : getStoredCredentials();
-  const resolvedEmail = email ?? storedCredentials.email;
-  const resolvedApiToken = apiToken ?? storedCredentials.apiToken;
-  if (!resolvedEmail || !resolvedApiToken) {
-    throw new Error('Set JIRA_EMAIL or save the Jira email with "npm run jira:credential:save"');
+  if (!email || !apiToken) {
+    throw new Error('Set JIRA_EMAIL and JIRA_API_TOKEN in the root .env file');
   }
 
   const apiUrl = new URL(`rest/api/3/issue/${issueKey}`, baseUrl);
@@ -150,7 +104,7 @@ async function main() {
     'fields',
     'summary,description,issuetype,status,priority,labels,components,environment',
   );
-  const authorization = Buffer.from(`${resolvedEmail}:${resolvedApiToken}`).toString('base64');
+  const authorization = Buffer.from(`${email}:${apiToken}`).toString('base64');
   const response = await fetch(apiUrl, {
     headers: {
       Accept: 'application/json',

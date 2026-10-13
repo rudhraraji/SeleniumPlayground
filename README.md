@@ -228,10 +228,9 @@ npm run jira:prompt -- GR82TEST-3
 npm run jira:prompt -- https://gr8testing.atlassian.net/browse/GR82TEST-3
 ```
 
-This helper is separate from Playwright test execution. On Windows,
-`npm run jira:credential:save` stores Jira credentials in Windows Credential
-Manager. Alternatively, set `JIRA_EMAIL` and `JIRA_API_TOKEN` environment
-variables. Jira credentials and Copilot CLI are not needed to run the tests.
+This helper is separate from Playwright test execution. Set `JIRA_EMAIL` and
+`JIRA_API_TOKEN` in the root `.env` file. Jira credentials and Copilot CLI are
+not needed to run the tests.
 
 ## Contributing
 

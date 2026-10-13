@@ -212,13 +212,13 @@ sends its description to an interactive Copilot CLI session:
 
 ```sh
 npm run jira:prompt -- GR82TEST-3
-npm run jira:prompt -- https://gr8testing.atlassian.net/browse/GR82TEST-3
 ```
 
-This helper is separate from Playwright test execution. On Windows,
-`npm run jira:credential:save` stores Jira credentials in Windows Credential
-Manager. Alternatively, set `JIRA_EMAIL` and `JIRA_API_TOKEN` environment
-variables. Jira credentials and Copilot CLI are not needed to run the tests.
+Run this from the repository root or `playwright-pom`; it loads Jira settings
+from the root `.env` file. Add Jira email and API token there. Alternatively,
+pass a Jira browse URL instead of an issue key. This helper is separate from
+Playwright test execution. Jira credentials and Copilot CLI are not needed to
+run the tests.
 
 ## Contributing
 

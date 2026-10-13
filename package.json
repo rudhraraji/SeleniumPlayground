@@ -5,7 +5,8 @@
     "playwright-pom"
   ],
   "scripts": {
-    "test": "playwright test"
+    "test": "playwright test",
+    "jira:prompt": "npm run jira:prompt --workspace playwright-pom"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0"
